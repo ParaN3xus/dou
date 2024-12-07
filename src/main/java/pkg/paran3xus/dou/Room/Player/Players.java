@@ -51,6 +51,34 @@ public class Players {
                 .orElse(null);
     }
 
+    public Player ofId(String id) {
+        return Stream.of(first, second, third)
+                .filter(p -> p != null && p.getId() == id)
+                .findFirst()
+                .orElse(null);
+    }
+
+    public Player ofIndex(int index) {
+        switch (index) {
+            case 0:
+                return first;
+            case 1:
+                return second;
+            default:
+                return third;
+        }
+    }
+
+    public int indexOf(Player player) {
+        if (first == player) {
+            return 0;
+        } else if (second == player) {
+            return 1;
+        } else {
+            return 2;
+        }
+    }
+
     public void removePlayer(Player player) {
         if (first == player) {
             first = null;

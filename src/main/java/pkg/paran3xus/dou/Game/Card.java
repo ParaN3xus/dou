@@ -14,7 +14,7 @@ public class Card implements Comparable<Card> {
         SPADE, HEART, CLUB, DIAMOND, JOKER
     }
 
-    enum Value {
+    public enum Value {
         THREE(3), FOUR(4), FIVE(5), SIX(6), SEVEN(7), EIGHT(8), NINE(9), TEN(10),
         JACK(11), QUEEN(12), KING(13), ACE(14), TWO(15),
         SMALL_JOKER(16), BIG_JOKER(17);
@@ -27,6 +27,48 @@ public class Card implements Comparable<Card> {
 
         public int getValue() {
             return value;
+        }
+
+        public static Value fromInt(int value) {
+            for (Value v : values()) {
+                if (v.getValue() == value) {
+                    return v;
+                }
+            }
+            throw new IllegalArgumentException("Invalid value: " + value);
+        }
+    }
+
+    public class CardInfo {
+        // 0: spade, 1: heart, 2: club, 3: diamond, 4: joker
+        int suit;
+
+        int value;
+
+        CardInfo(int suit, int value) {
+            this.suit = suit;
+            this.value = value;
+        }
+
+        public Card toCard() {
+            Suit suit;
+            switch (this.suit) {
+                case 0:
+                    suit = Suit.SPADE;
+                    break;
+                case 1:
+                    suit = Suit.HEART;
+                    break;
+                case 2:
+                    suit = Suit.CLUB;
+                    break;
+                case 3:
+                    suit = Suit.DIAMOND;
+                    break;
+                default:
+                    suit = Suit.JOKER;
+            }
+            return new Card(suit, Value.fromInt(this.value));
         }
     }
 
@@ -62,6 +104,33 @@ public class Card implements Comparable<Card> {
 
     public int getNumericValue() {
         return value.getValue();
+    }
+
+    public CardInfo GetCardInfo() {
+        int suitValue = -1;
+        int value = ' ';
+
+        switch (this.suit) {
+            case SPADE:
+                suitValue = 0;
+                break;
+            case HEART:
+                suitValue = 1;
+                break;
+            case CLUB:
+                suitValue = 2;
+                break;
+            case DIAMOND:
+                suitValue = 3;
+                break;
+            case JOKER:
+                suitValue = 4;
+                break;
+        }
+
+        value = this.value.getValue();
+
+        return new CardInfo(suitValue, value);
     }
 
     @Override

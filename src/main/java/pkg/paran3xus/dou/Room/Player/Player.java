@@ -9,14 +9,16 @@ import pkg.paran3xus.dou.Game.CardCollection;
 import pkg.paran3xus.dou.Room.Network.Message.GameMessage.JoinData;
 
 public class Player {
-    private String playerId;
+    private String nickname;
+    private String id;
     private Image avatar;
     private boolean isReady;
     private WebSocket connection;
     private CardCollection cards;
 
     public Player(JoinData joinData, WebSocket conn) {
-        playerId = joinData.getId();
+        nickname = joinData.getNickname();
+        id = joinData.getId();
 
         ByteArrayInputStream bis = new ByteArrayInputStream(joinData.getAvatar());
         avatar = new Image(bis);
@@ -35,11 +37,19 @@ public class Player {
         return connection;
     }
 
+    public String getId() {
+        return id;
+    }
+
     public void setCards(CardCollection cards) {
         this.cards = cards;
     }
 
     public CardCollection getCards() {
         return cards;
+    }
+
+    public void move(CardCollection col) {
+        cards.subtract(col);
     }
 }

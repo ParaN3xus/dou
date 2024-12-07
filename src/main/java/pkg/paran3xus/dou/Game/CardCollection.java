@@ -4,7 +4,8 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class CardCollection implements Comparable<CardCollection> {
-    enum Type {
+    public enum Type {
+        EMPTY, // 空
         INVALID, // 无效牌型
         SINGLE, // 单牌
         PAIR, // 对子
@@ -22,9 +23,9 @@ public class CardCollection implements Comparable<CardCollection> {
         ROCKET // 王炸
     }
 
-    private final List<Card> cards;
-    private final Type type;
-    private final int baseValue; // for comparing
+    private List<Card> cards;
+    private Type type;
+    private int baseValue; // for comparing
 
     public CardCollection(List<Card> cards) {
         this.cards = new ArrayList<>(cards);
@@ -35,7 +36,7 @@ public class CardCollection implements Comparable<CardCollection> {
 
     private Type determineType() {
         if (cards.isEmpty())
-            return Type.INVALID;
+            return Type.EMPTY;
 
         int size = cards.size();
 
@@ -208,27 +209,30 @@ public class CardCollection implements Comparable<CardCollection> {
 
     @Override
     public int compareTo(CardCollection other) {
-        // 王炸最大
+        // biggest: rocket
         if (this.type == Type.ROCKET)
             return 1;
         if (other.type == Type.ROCKET)
             return -1;
 
-        // 炸弹比普通牌型大
+        // bigger than normal: bomb
         if (this.type == Type.BOMB && other.type != Type.BOMB)
             return 1;
         if (other.type == Type.BOMB && this.type != Type.BOMB)
             return -1;
 
-        // 牌型不同无法比较
+        // can't compare
         if (this.type != other.type)
             return 0;
 
-        // 同类型比较基础值
+        // same type, compare base value
         return this.baseValue - other.baseValue;
     }
 
     public boolean canBeat(CardCollection other) {
+        if (other == null) {
+            return true;
+        }
         int comparison = this.compareTo(other);
         return comparison > 0;
     }
@@ -241,11 +245,24 @@ public class CardCollection implements Comparable<CardCollection> {
         return Collections.unmodifiableList(cards);
     }
 
-    @Override
-    public String toString() {
-        return "CardCollection{" +
-                "type=" + type +
-                ", cards=" + cards +
-                '}';
+    public List<Card.CardInfo> getCardsInfo() {
+        return cards.stream().map(x -> x.GetCardInfo()).collect(Collectors.toUnmodifiableList());
+    }
+
+    public void subtract(CardCollection col) {
+        List<Card> resultCards = new ArrayList<>(this.cards);
+
+        resultCards.removeAll(col.cards);
+
+        this.cards.clear();
+        this.cards.addAll(resultCards);
+        Collections.sort(this.cards);
+
+        this.type = determineType();
+        this.baseValue = calculateBaseValue();
+    }
+
+    public boolean isEmpty() {
+        return type == Type.EMPTY;
     }
 }
