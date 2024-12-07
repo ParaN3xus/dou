@@ -1,8 +1,11 @@
 package pkg.paran3xus.dou.Room.Player;
 
+import java.util.List;
 import java.util.stream.Stream;
 
 import org.java_websocket.WebSocket;
+
+import pkg.paran3xus.dou.Game.CardCollection;
 
 public class Players {
     public class PlayerFullException extends Exception {
@@ -23,6 +26,12 @@ public class Players {
                 .count();
     }
 
+    public int countReady() {
+        return (int) Stream.of(first, second, third)
+                .filter(p -> p.getReady())
+                .count();
+    }
+
     public void addPlayer(Player player) throws PlayerFullException {
         if (first == null) {
             first = player;
@@ -40,5 +49,21 @@ public class Players {
                 .filter(p -> p != null && p.getConnection() == conn)
                 .findFirst()
                 .orElse(null);
+    }
+
+    public void removePlayer(Player player) {
+        if (first == player) {
+            first = null;
+        } else if (second == player) {
+            second = null;
+        } else if (third == player) {
+            third = null;
+        }
+    }
+
+    public void setCards(List<CardCollection> cards) {
+        first.setCards(cards.get(0));
+        second.setCards(cards.get(1));
+        third.setCards(cards.get(2));
     }
 }

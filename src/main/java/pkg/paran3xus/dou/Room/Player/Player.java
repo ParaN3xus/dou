@@ -1,12 +1,11 @@
 package pkg.paran3xus.dou.Room.Player;
 
 import java.io.ByteArrayInputStream;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.java_websocket.WebSocket;
 
 import javafx.scene.image.Image;
+import pkg.paran3xus.dou.Game.CardCollection;
 import pkg.paran3xus.dou.Room.Network.Message.GameMessage.JoinData;
 
 public class Player {
@@ -14,6 +13,7 @@ public class Player {
     private Image avatar;
     private boolean isReady;
     private WebSocket connection;
+    private CardCollection cards;
 
     public Player(JoinData joinData, WebSocket conn) {
         playerId = joinData.getId();
@@ -33,5 +33,13 @@ public class Player {
 
     public WebSocket getConnection() {
         return connection;
+    }
+
+    public void setCards(CardCollection cards) {
+        this.cards = cards;
+    }
+
+    public CardCollection getCards() {
+        return cards;
     }
 }
