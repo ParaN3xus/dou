@@ -82,7 +82,7 @@ class CardCollection implements Comparable<CardCollection> {
         }
 
         // four with two
-        if (size == 6 && valueCounts.containsValue(4) && valueCounts.size() == 3) {
+        if (size == 6 && valueCounts.containsValue(4)) {
             return Type.FOUR_WITH_TWO;
         }
 
