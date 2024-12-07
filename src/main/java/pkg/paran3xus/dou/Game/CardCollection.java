@@ -3,7 +3,7 @@ package pkg.paran3xus.dou.Game;
 import java.util.*;
 import java.util.stream.Collectors;
 
-class CardCollection implements Comparable<CardCollection> {
+public class CardCollection implements Comparable<CardCollection> {
     enum Type {
         INVALID, // 无效牌型
         SINGLE, // 单牌

@@ -5,8 +5,11 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-class Card implements Comparable<Card> {
+public class Card implements Comparable<Card> {
     enum Suit {
         SPADE, HEART, CLUB, DIAMOND, JOKER
     }
@@ -89,7 +92,7 @@ class Card implements Comparable<Card> {
         return Objects.hash(suit, value);
     }
 
-    public static Card[][] createAndDealCards() {
+    public static List<CardCollection> createAndDealCards() {
         List<Card> deck = new ArrayList<>();
 
         for (Suit suit : new Suit[] { Suit.SPADE, Suit.HEART, Suit.CLUB, Suit.DIAMOND }) {
@@ -123,6 +126,8 @@ class Card implements Comparable<Card> {
             Arrays.sort(result[i]);
         }
 
-        return result;
+        return Arrays.stream(result)
+                .map(x -> new CardCollection(Arrays.asList(x)))
+                .collect(Collectors.toList());
     }
 }
