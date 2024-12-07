@@ -2,17 +2,27 @@ package pkg.paran3xus.dou.Room.Network.Message;
 
 public interface GameMessage {
     public static class JoinData implements GameMessage {
-        private String nickname;
+        private String id;
         private byte[] avatar;
 
         public JoinData(String nickname, byte[] avatar) {
-            this.nickname = nickname;
+            this.id = nickname;
             this.avatar = avatar;
         }
-        // getters and setters
+
+        public String getId() {
+            return id;
+        }
+
+        public byte[] getAvatar() {
+            return avatar;
+        }
     }
 
     public static class LeaveData implements GameMessage {
+    }
+
+    public static class ReadyData implements GameMessage {
     }
 
     public static class ChatData implements GameMessage {
