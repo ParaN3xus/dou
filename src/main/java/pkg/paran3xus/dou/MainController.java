@@ -2,10 +2,13 @@ package pkg.paran3xus.dou;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import pkg.paran3xus.dou.Room.IRoom;
 
 public class MainController {
     @FXML
     private Label welcomeText;
+
+    private IRoom activeRoom;
 
     @FXML
     protected void onHelloButtonClick() {
