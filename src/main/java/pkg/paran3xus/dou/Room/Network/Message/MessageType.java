@@ -1,5 +1,7 @@
 package pkg.paran3xus.dou.Room.Network.Message;
 
+import pkg.paran3xus.dou.Room.Network.Message.GameMessage.*;
+
 public enum MessageType {
     JOIN(JoinData.class),
     LEAVE(LeaveData.class),
