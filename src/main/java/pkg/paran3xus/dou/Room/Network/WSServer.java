@@ -67,6 +67,10 @@ public class WSServer extends WebSocketServer {
         broadcast(msgProcessor.serialize(MessageType.LEAVE, data));
     }
 
+    public void notifyChat(ChatData data) {
+        broadcast(msgProcessor.serialize(MessageType.CHAT, data));
+    }
+
     public void notifyAskBid(AskBidData data) {
         broadcast(msgProcessor.serialize(MessageType.ASK_BID, data));
     }

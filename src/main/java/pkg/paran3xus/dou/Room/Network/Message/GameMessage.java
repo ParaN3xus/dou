@@ -87,13 +87,16 @@ public interface GameMessage {
         }
     }
 
-    public static class ChatData implements GameMessage {
+    public static class ChatData extends IdData {
         private String msg;
-        private String id;
 
         public ChatData(String id, String msg) {
+            super(id);
             this.msg = msg;
-            this.id = id;
+        }
+
+        public String getMsg() {
+            return msg;
         }
     }
 

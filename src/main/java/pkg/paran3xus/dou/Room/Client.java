@@ -17,8 +17,6 @@ public class Client {
     interface ClientCallback {
         void onPlayerChanged(Players players);
 
-        void onGameStart();
-
         void onDist(CardCollection col);
 
         void onPlayerBid(String id, boolean isBid);
@@ -30,6 +28,8 @@ public class Client {
         void onPlayerMove(String id, CardCollection col);
 
         void onEnd(Boolean isLandlordWin);
+
+        void onChat(Player p, String msg);
 
         void onError(String errorMessage);
     }
@@ -108,8 +108,7 @@ public class Client {
     }
 
     protected void handleChatMessage(ChatData chatData) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'handleChatMessage'");
+        callback.onChat(players.ofId(chatData.getId()), tmpId);
     }
 
     protected void handleLeaveMessage(LeaveData leaveData) {

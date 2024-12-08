@@ -200,8 +200,7 @@ public class Server {
     }
 
     private void handleChatMessage(ChatData chatData) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'handleChatMessage'");
+        server.notifyChat(chatData);
     }
 
     public void nextWaiting() {
