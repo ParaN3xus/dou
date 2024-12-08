@@ -4,6 +4,7 @@ import pkg.paran3xus.dou.Room.Network.Message.GameMessage.*;
 
 public enum MessageType {
     JOIN(JoinData.class),
+    ID(IdData.class),
     PLAYERS(PlayersData.class),
     READY(ReadyData.class),
     CHAT(ChatData.class),

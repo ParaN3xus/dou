@@ -32,6 +32,14 @@ public class Player {
         connection = conn;
     }
 
+    public Player(PlayerInfo info) {
+        nickname = info.getNickname();
+        id = info.getId();
+        isReady = info.getIsReady();
+        avatar = info.getJFXAvatar();
+        connection = null;
+    }
+
     public void setReady(boolean ready) {
         isReady = ready;
     }
@@ -65,6 +73,6 @@ public class Player {
     }
 
     public PlayerInfo toPlayerInfo(int index) {
-        return new PlayerInfo(nickname, id, avatar, index);
+        return new PlayerInfo(nickname, id, avatar, isReady, index);
     }
 }

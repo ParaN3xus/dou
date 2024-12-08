@@ -42,7 +42,7 @@ public class WSClient extends WebSocketClient {
     public void onOpen(ServerHandshake handshakedata) {
         String id = UUID.randomUUID().toString();
 
-        send(msgProcessor.serialize(MessageType.JOIN, new JoinData(new PlayerInfo(nickname, id, avatar, -1))));
+        send(msgProcessor.serialize(MessageType.JOIN, new JoinData(new PlayerInfo(nickname, id, avatar, false, -1))));
     }
 
     @Override

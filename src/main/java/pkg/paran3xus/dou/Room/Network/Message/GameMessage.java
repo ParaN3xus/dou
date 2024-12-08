@@ -45,47 +45,41 @@ public interface GameMessage {
         }
     }
 
-    public static class LeaveData implements GameMessage {
+    public static class IdData implements GameMessage {
         private String id;
 
+        public IdData(String id) {
+            this.id = id;
+        }
+
+        public String getId() {
+            return id;
+        }
+    }
+
+    public static class LeaveData extends IdData {
         public LeaveData(String id) {
-            this.id = id;
-        }
-
-        public String getId() {
-            return id;
+            super(id);
         }
     }
 
-    public static class AskBidData implements GameMessage {
-        private String id;
-
+    public static class AskBidData extends IdData {
         public AskBidData(String id) {
-            this.id = id;
-        }
-
-        public String getId() {
-            return id;
+            super(id);
         }
     }
 
-    public static class AskMoveData implements GameMessage {
-        private String id;
-
+    public static class AskMoveData extends IdData {
         public AskMoveData(String id) {
-            this.id = id;
-        }
-
-        public String getId() {
-            return id;
+            super(id);
         }
     }
 
-    public static class ReadyData implements GameMessage {
+    public static class ReadyData extends IdData {
         private String id;
 
         public ReadyData(String id) {
-            this.id = id;
+            super(id);
         }
 
         public String getId() {
@@ -109,15 +103,18 @@ public interface GameMessage {
         public EndData(boolean isLandlordWin) {
             this.isLandlordWin = isLandlordWin;
         }
+
+        public boolean getIsLandlordWin() {
+            return isLandlordWin;
+        }
     }
 
-    public static class MoveData implements GameMessage {
+    public static class MoveData extends IdData {
         private List<Card.CardInfo> cards;
-        private String id;
 
         public MoveData(String id, List<Card.CardInfo> cards) {
+            super(id);
             this.cards = cards;
-            this.id = id;
         }
 
         public CardCollection getCardCollection() {
@@ -129,13 +126,10 @@ public interface GameMessage {
         }
     }
 
-    public static class DistData implements GameMessage {
-        private List<Card.CardInfo> cards;
-
-        public DistData(List<Card.CardInfo> cards) {
-            this.cards = cards;
+    public static class DistData extends MoveData {
+        public DistData(String id, List<Card.CardInfo> cards) {
+            super(id, cards);
         }
-        // getters and setters
     }
 
     public static class DistHiddenData implements GameMessage {

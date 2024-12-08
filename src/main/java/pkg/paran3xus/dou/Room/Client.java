@@ -8,6 +8,7 @@ import pkg.paran3xus.dou.Room.Network.WSClient;
 import pkg.paran3xus.dou.Room.Network.WSClient.Callback;
 import pkg.paran3xus.dou.Room.Network.Message.GameMessage;
 import pkg.paran3xus.dou.Room.Network.Message.GameMessage.*;
+import pkg.paran3xus.dou.Room.Player.Player;
 import pkg.paran3xus.dou.Room.Player.Players;
 import pkg.paran3xus.dou.Room.Player.Players.PlayerFullException;
 
@@ -18,13 +19,25 @@ public class Client {
 
         void onGameStart();
 
-        void onPlayerBid(int index, boolean isBid);
+        void onDist(CardCollection col);
+
+        void onPlayerBid(String id, boolean isBid);
+
+        void onPlayerBidding(String id);
+
+        void onPlayerMoving(String id);
+
+        void onPlayerMove(String id, CardCollection col);
+
+        void onEnd(Boolean isLandlordWin);
 
         void onError(String errorMessage);
     }
 
     ClientCallback callback;
-    Players players;
+    Players players = null;
+    Player me = null;
+    String tmpId = null;
     CardCollection hiddenCards;
     WSClient client;
 
@@ -37,12 +50,13 @@ public class Client {
                     case ReadyData readyData -> handleReadyMessage(readyData);
                     case LeaveData leaveData -> handleLeaveMessage(leaveData);
                     case ChatData chatData -> handleChatMessage(chatData);
-                    case MoveData moveData -> handleMoveMessage(moveData);
                     case DistData distData -> handleDistMessage(distData);
+                    case MoveData moveData -> handleMoveMessage(moveData);
                     case BidData bidData -> handleBidMessage(bidData);
                     case AskMoveData askMoveData -> handleAskMoveMessage(askMoveData);
                     case AskBidData askBidData -> handleAskBidMessage(askBidData);
                     case EndData endData -> handleEndMessage(endData);
+                    case IdData idData -> handleIdMessage(idData);
                     default -> {
                     }
                 }
@@ -51,39 +65,46 @@ public class Client {
         this.callback = callback;
     }
 
-    protected Object handlePlayersMessage(PlayersData playersData) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'handlePlayersMessage'");
+    protected void handleIdMessage(IdData idData) {
+        tmpId = idData.getId();
+        initMe();
     }
 
-    protected void handleEndMessage(EndData endData) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'handleEndMessage'");
+    protected void handlePlayersMessage(PlayersData playersData) {
+        players = new Players(playersData);
+        initMe();
+    }
+
+    protected void initMe() {
+        if (players != null && tmpId != null) {
+            me = players.ofId(tmpId);
+            callback.onPlayerChanged(players);
+        }
+    }
+
+    protected void handleReadyMessage(ReadyData readyData) {
+        players.ofId(readyData.getId()).setReady(true);
+        callback.onPlayerChanged(players);
     }
 
     protected void handleAskBidMessage(AskBidData askBidData) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'handleAskBidMessage'");
-    }
-
-    protected void handleAskMoveMessage(AskMoveData askMoveData) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'handleAskMoveMessage'");
+        callback.onPlayerBidding(askBidData.getId());
     }
 
     protected void handleBidMessage(BidData bidData) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'handleBidMessage'");
+        callback.onPlayerBid(bidData.getId(), bidData.getBid());
     }
 
-    protected void handleDistMessage(DistData distData) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'handleDistMessage'");
+    protected void handleAskMoveMessage(AskMoveData askMoveData) {
+        callback.onPlayerMoving(askMoveData.getId());
     }
 
     protected void handleMoveMessage(MoveData moveData) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'handleMoveMessage'");
+        callback.onPlayerMove(moveData.getId(), moveData.getCardCollection());
+    }
+
+    protected void handleDistMessage(DistData distData) {
+        callback.onDist(distData.getCardCollection());
     }
 
     protected void handleChatMessage(ChatData chatData) {
@@ -92,15 +113,11 @@ public class Client {
     }
 
     protected void handleLeaveMessage(LeaveData leaveData) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'handleLeaveMessage'");
+        players.removePlayer(players.ofId(leaveData.getId()));
+        callback.onPlayerChanged(players);
     }
 
-    protected void handleReadyMessage(ReadyData readyData) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'handleReadyMessage'");
-    }
-
-    protected void handleJoinMessage(JoinData joinData) {
+    protected void handleEndMessage(EndData endData) {
+        callback.onEnd(endData.getIsLandlordWin());
     }
 }

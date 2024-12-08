@@ -15,6 +15,7 @@ public class PlayerInfo {
     private String id;
     private String avatar;
     private int pos;
+    private boolean isReady;
 
     public PlayerInfo(String nickname, String id, String avatar, int pos) {
         this.nickname = nickname;
@@ -23,10 +24,11 @@ public class PlayerInfo {
         this.pos = pos;
     }
 
-    public PlayerInfo(String nickname, String id, Image avatar, int pos) {
+    public PlayerInfo(String nickname, String id, Image avatar, boolean isReady, int pos) {
         this.nickname = nickname;
         this.id = id;
         this.pos = pos;
+        this.isReady = isReady;
 
         BufferedImage bImage = SwingFXUtils.fromFXImage(avatar, null);
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -43,8 +45,16 @@ public class PlayerInfo {
         return id;
     }
 
+    public boolean getIsReady() {
+        return isReady;
+    }
+
     public String getNickname() {
         return nickname;
+    }
+
+    public int getPos() {
+        return pos;
     }
 
     public Image getJFXAvatar() {

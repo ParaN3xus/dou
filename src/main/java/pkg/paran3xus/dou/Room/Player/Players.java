@@ -6,6 +6,7 @@ import java.util.stream.Stream;
 import org.java_websocket.WebSocket;
 
 import pkg.paran3xus.dou.Game.CardCollection;
+import pkg.paran3xus.dou.Room.Network.Message.GameMessage.PlayersData;
 
 public class Players {
     public class PlayerFullException extends Exception {
@@ -18,6 +19,20 @@ public class Players {
 
     public Players() {
         first = second = third = null;
+    }
+
+    public Players(PlayersData data) {
+        List<PlayerInfo> pl = data.getPlayers();
+        for (PlayerInfo p : pl) {
+            switch (p.getPos()) {
+                case 0:
+                    first = new Player(p);
+                case 1:
+                    second = new Player(p);
+                default:
+                    third = new Player(p);
+            }
+        }
     }
 
     public int count() {

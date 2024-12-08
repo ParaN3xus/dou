@@ -96,14 +96,18 @@ public class WSServer extends WebSocketServer {
         for (int i = 0; i < 3; i++) {
             Player p = players.ofIndex(i);
             WebSocket conn = p.getConnection();
-            DistData data = new DistData(p.getCards().getCardsInfo());
+            DistData data = new DistData(p.getId(), p.getCards().getCardsInfo());
             conn.send(msgProcessor.serialize(MessageType.DIST, data));
         }
     }
 
+    public void notifyId(Player p) {
+        p.getConnection().send(msgProcessor.serialize(MessageType.ID, new IdData(p.getId())));
+    }
+
     public void notifyDistHiddenCards(Player player, CardCollection hiddenCards) {
         WebSocket conn = player.getConnection();
-        DistData data = new DistData(hiddenCards.getCardsInfo());
+        DistData data = new DistData(player.getId(), hiddenCards.getCardsInfo());
         conn.send(msgProcessor.serialize(MessageType.DIST_HIDDEN, data));
     }
 }
