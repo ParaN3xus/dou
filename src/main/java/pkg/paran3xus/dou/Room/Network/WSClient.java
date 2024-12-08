@@ -7,6 +7,7 @@ import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
 
 import javafx.scene.image.Image;
+import pkg.paran3xus.dou.Room.Network.Message.GameMessage.BidData;
 import pkg.paran3xus.dou.Room.Network.Message.GameMessage.JoinData;
 import pkg.paran3xus.dou.Room.Network.Message.GameMessage.ReadyData;
 import pkg.paran3xus.dou.Room.Network.Message.*;
@@ -61,5 +62,9 @@ public class WSClient extends WebSocketClient {
 
     public void sendReady(String id) {
         send(msgProcessor.serialize(MessageType.READY, new ReadyData(id)));
+    }
+
+    public void sendBid(String id, boolean bid) {
+        send(msgProcessor.serialize(MessageType.BID, new BidData(id, bid)));
     }
 }

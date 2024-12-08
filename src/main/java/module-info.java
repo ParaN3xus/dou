@@ -13,5 +13,6 @@ module pkg.paran3xus.dou {
     opens pkg.paran3xus.dou to javafx.fxml;
     opens pkg.paran3xus.dou.controls to javafx.fxml;
     opens pkg.paran3xus.dou.Room.Network.Message to com.google.gson;
+    opens pkg.paran3xus.dou.Game to com.google.gson;
     opens pkg.paran3xus.dou.Room.Player to com.google.gson;
 }

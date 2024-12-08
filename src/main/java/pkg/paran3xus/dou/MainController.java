@@ -28,6 +28,7 @@ import pkg.paran3xus.dou.controls.PlayerInfoPane;
 import pkg.paran3xus.dou.Room.Network.RoomScanner;
 import pkg.paran3xus.dou.Room.Network.RoomScanner.ScanCallback;
 import pkg.paran3xus.dou.Room.Player.Player;
+import pkg.paran3xus.dou.Room.Player.PlayerInfo;
 import pkg.paran3xus.dou.Room.Player.Players;
 
 public class MainController implements Initializable {
@@ -53,7 +54,7 @@ public class MainController implements Initializable {
     private CardSelector cardSelector;
 
     @FXML
-    private Button controlButton;
+    private Button controlButton, controlNotButton;
 
     private Client client;
     private Server server;
@@ -126,11 +127,45 @@ public class MainController implements Initializable {
         switch (state) {
             case RoomState.READY:
                 client.sendReady();
+                controlButton.setDisable(true);
                 break;
-
+            case RoomState.BIDDING:
+                client.sendBid(true);
             default:
                 break;
         }
+    }
+
+    @FXML
+    protected void onControlNotButtonClicked() {
+        switch (state) {
+            case RoomState.READY:
+                break;
+            case RoomState.BIDDING:
+                client.sendBid(false);
+            default:
+                break;
+        }
+    }
+
+    protected PlayerInfoPane playerInfoPaneOfId(String id) {
+        Players players = client.getPlayers();
+        List<Player> po = players.orderedBy(client.getMyId());
+        Player p = players.ofId(id);
+
+        for (int i = 0; i < 3; i++) {
+            if (p == po.get(i)) {
+                switch (i) {
+                    case 0:
+                        return bottomPlayerInfo;
+                    case 1:
+                        return rightPlayerInfo;
+                    default:
+                        return leftPlayerInfo;
+                }
+            }
+        }
+        return null;
     }
 
     protected void connectServer(String uri) {
@@ -158,32 +193,42 @@ public class MainController implements Initializable {
 
             @Override
             public void onDistHidden(String id, CardCollection col) {
-                // TODO Auto-generated method stub
-                throw new UnsupportedOperationException("Unimplemented method 'onDistHidden'");
+                PlayerInfoPane pane = playerInfoPaneOfId(id);
+                pane.setStatus("Landlord!");
+                pane.addCardCount(3);
             }
 
             @Override
             public void onPlayerBid(String id, boolean isBid) {
-                // TODO Auto-generated method stub
-                throw new UnsupportedOperationException("Unimplemented method 'onPlayerBid'");
+                playerInfoPaneOfId(id).setStatus(isBid ? "Bid!" : "not bid");
             }
 
             @Override
             public void onPlayerBidding(String id) {
-                // TODO Auto-generated method stub
-                throw new UnsupportedOperationException("Unimplemented method 'onPlayerBidding'");
+                System.out.println("clientf: bidding " + id);
+                playerInfoPaneOfId(id).setStatus("Bidding");
+
+                Platform.runLater(() -> {
+                    state = RoomState.BIDDING;
+                    controlButton.setText("Bid");
+                    controlNotButton.setText("not Bid");
+
+                    boolean neq = !id.equals(client.getMyId());
+                    controlButton.setDisable(neq);
+                    controlNotButton.setDisable(neq);
+                });
             }
 
             @Override
             public void onPlayerMoving(String id) {
-                // TODO Auto-generated method stub
-                throw new UnsupportedOperationException("Unimplemented method 'onPlayerMoving'");
+                playerInfoPaneOfId(id).setStatus("Moving");
             }
 
             @Override
             public void onPlayerMove(String id, CardCollection col) {
-                // TODO Auto-generated method stub
-                throw new UnsupportedOperationException("Unimplemented method 'onPlayerMove'");
+                PlayerInfoPane pane = playerInfoPaneOfId(id);
+                pane.setStatus(col.toString());
+                pane.substractCardCount(col.getCardsCount());
             }
 
             @Override

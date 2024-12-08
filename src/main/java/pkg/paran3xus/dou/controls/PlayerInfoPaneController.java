@@ -19,6 +19,8 @@ public class PlayerInfoPaneController {
     @FXML
     private Label statusMessage;
 
+    int count;
+
     public void setPlayerName(String name) {
         Platform.runLater(() -> {
             playerName.setText(name);
@@ -29,6 +31,11 @@ public class PlayerInfoPaneController {
         Platform.runLater(() -> {
             cardCount.setText("Cards: " + count);
         });
+        this.count = count;
+    }
+
+    public int getCardCount() {
+        return count;
     }
 
     public void setStatus(String status) {

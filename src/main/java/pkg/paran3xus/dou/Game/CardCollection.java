@@ -265,4 +265,12 @@ public class CardCollection implements Comparable<CardCollection> {
     public boolean isEmpty() {
         return type == Type.EMPTY;
     }
+
+    public String toString() {
+        return cards.stream().map(x -> x.getValueName()).collect(Collectors.joining());
+    }
+
+    public int getCardsCount() {
+        return cards.size();
+    }
 }

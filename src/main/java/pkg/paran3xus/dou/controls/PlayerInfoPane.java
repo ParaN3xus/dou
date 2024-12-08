@@ -33,6 +33,14 @@ public class PlayerInfoPane extends GridPane {
         controller.setCardCount(count);
     }
 
+    public void substractCardCount(int d) {
+        controller.setCardCount(controller.getCardCount() - d);
+    }
+
+    public void addCardCount(int d) {
+        controller.setCardCount(controller.getCardCount() + d);
+    }
+
     public void setStatus(String status) {
         controller.setStatus(status);
     }

@@ -46,8 +46,12 @@
         </VBox>
 
         <VBox alignment="BOTTOM_CENTER" HBox.hgrow="ALWAYS">
-            <Button fx:id="controlButton" text="Ready" minWidth="150"
-                onMouseClicked="#onControlButtonClicked" />
+            <HBox alignment="TOP_CENTER">
+                <Button fx:id="controlButton" text="Ready" minWidth="150"
+                    onMouseClicked="#onControlButtonClicked" />
+                <Button fx:id="controlNotButton" text="no" minWidth="150" disable="true"
+                    onMouseClicked="#onControlNotButtonClicked" />
+            </HBox>
             <CardSelector fx:id="cardSelector" VBox.vgrow="ALWAYS" />
         </VBox>
     </HBox>

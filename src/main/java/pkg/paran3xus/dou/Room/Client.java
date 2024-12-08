@@ -140,7 +140,15 @@ public class Client {
         client.sendReady(me.getId());
     }
 
+    public void sendBid(boolean bid) {
+        client.sendBid(me.getId(), bid);
+    }
+
     public String getMyId() {
         return me.getId();
+    }
+
+    public Players getPlayers() {
+        return players;
     }
 }

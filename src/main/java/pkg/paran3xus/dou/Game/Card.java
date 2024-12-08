@@ -193,4 +193,36 @@ public class Card implements Comparable<Card> {
                 .map(x -> new CardCollection(Arrays.asList(x)))
                 .collect(Collectors.toList());
     }
+
+    public String getValueName() {
+        int v = value.value;
+        if (v < 10) {
+            return value.toString();
+        }
+        if (v == 10) {
+            return "T";
+        }
+        if (v == 11) {
+            return "J";
+        }
+        if (v == 12) {
+            return "Q";
+        }
+        if (v == 13) {
+            return "K";
+        }
+        if (v == 14) {
+            return "A";
+        }
+        if (v == 15) {
+            return "2";
+        }
+        if (v == 16) {
+            return "S";
+        }
+        if (v == 17) {
+            return "B";
+        }
+        return "U";
+    }
 }
