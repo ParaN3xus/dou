@@ -94,4 +94,8 @@ public class Players {
         second.setCards(cards.get(1));
         third.setCards(cards.get(2));
     }
+
+    public List<Player> getPlayers() {
+        return Stream.of(first, second, third).toList();
+    }
 }

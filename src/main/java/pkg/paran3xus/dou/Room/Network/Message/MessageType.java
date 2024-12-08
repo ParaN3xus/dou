@@ -4,16 +4,17 @@ import pkg.paran3xus.dou.Room.Network.Message.GameMessage.*;
 
 public enum MessageType {
     JOIN(JoinData.class),
+    PLAYERS(PlayersData.class),
     READY(ReadyData.class),
-    LEAVE(LeaveData.class),
     CHAT(ChatData.class),
-    MOVE(MoveData.class),
+    ASK_BID(AskBidData.class),
+    BID(BidData.class),
     ASK_MOVE(AskMoveData.class),
+    MOVE(MoveData.class),
     DIST(DistData.class),
     DIST_HIDDEN(DistData.class),
-    BID(BidData.class),
-    ASK_BID(AskBidData.class),
-    END(EndData.class);
+    END(EndData.class),
+    LEAVE(LeaveData.class);
 
     private final Class<? extends GameMessage> dataClass;
 

@@ -59,10 +59,6 @@ public class WSServer extends WebSocketServer {
         System.out.println("WebSocket server started");
     }
 
-    public void notifyJoin(JoinData data) {
-        broadcast(msgProcessor.serialize(MessageType.JOIN, data));
-    }
-
     public void notifyReady(ReadyData data) {
         broadcast(msgProcessor.serialize(MessageType.READY, data));
     }
@@ -89,6 +85,11 @@ public class WSServer extends WebSocketServer {
 
     public void notifyEnd(EndData data) {
         broadcast(msgProcessor.serialize(MessageType.END, data));
+    }
+
+    public void notifyPlayers(Players players) {
+        PlayersData data = new PlayersData(players);
+        broadcast(msgProcessor.serialize(MessageType.PLAYERS, data));
     }
 
     public void notifyDistCards(Players players) {

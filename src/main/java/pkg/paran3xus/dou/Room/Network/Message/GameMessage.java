@@ -1,34 +1,47 @@
 package pkg.paran3xus.dou.Room.Network.Message;
 
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
+import javafx.scene.image.Image;
 import pkg.paran3xus.dou.Game.Card;
 import pkg.paran3xus.dou.Game.CardCollection;
+import pkg.paran3xus.dou.Room.Player.PlayerInfo;
+import pkg.paran3xus.dou.Room.Player.Players;
 
 public interface GameMessage {
     public static class JoinData implements GameMessage {
-        private String id;
-        private String nickname;
-        private byte[] avatar;
+        private PlayerInfo playerInfo;
 
-        public JoinData(String id, String nickname, byte[] avatar) {
-            this.id = id;
-            this.nickname = nickname;
-            this.avatar = avatar;
+        public JoinData(PlayerInfo info) {
+            this.playerInfo = info;
         }
 
         public String getId() {
-            return id;
+            return playerInfo.getId();
         }
 
         public String getNickname() {
-            return nickname;
+            return playerInfo.getNickname();
         }
 
-        public byte[] getAvatar() {
-            return avatar;
+        public Image getJFXAvatar() {
+            return playerInfo.getJFXAvatar();
+        }
+    }
+
+    public static class PlayersData implements GameMessage {
+        private List<PlayerInfo> players;
+
+        public PlayersData(Players pls) {
+            players = pls.getPlayers()
+                    .stream()
+                    .map(x -> x.toPlayerInfo(pls.indexOf(x)))
+                    .collect(Collectors.toList());
+        }
+
+        public List<PlayerInfo> getPlayers() {
+            return players;
         }
     }
 

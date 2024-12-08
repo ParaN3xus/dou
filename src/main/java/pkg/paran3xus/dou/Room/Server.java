@@ -58,7 +58,8 @@ public class Server {
 
     private void handleJoinMessage(JoinData joinData, WebSocket conn) throws PlayerFullException {
         players.addPlayer(new Player(joinData, conn));
-        server.notifyJoin(joinData);
+
+        server.notifyPlayers(players);
 
         if (players.count() == 3) {
             state = RoomState.READY;
