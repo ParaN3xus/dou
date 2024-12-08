@@ -34,11 +34,11 @@
         <PlayerInfoPane fx:id="rightPlayerInfo" />
     </VBox>
     <HBox alignment="BOTTOM_CENTER"
-          AnchorPane.bottomAnchor="0.0"
-          AnchorPane.leftAnchor="0.0"
-          AnchorPane.rightAnchor="0.0">
+        AnchorPane.bottomAnchor="0.0"
+        AnchorPane.leftAnchor="0.0"
+        AnchorPane.rightAnchor="0.0">
         <padding>
-            <Insets bottom="20.0" left="20.0" right="20.0"/>
+            <Insets bottom="20.0" left="20.0" right="20.0" />
         </padding>
 
         <VBox alignment="BOTTOM_LEFT" minWidth="60" HBox.hgrow="NEVER">
@@ -46,8 +46,9 @@
         </VBox>
 
         <VBox alignment="BOTTOM_CENTER" HBox.hgrow="ALWAYS">
-            <Button fx:id="controlButton" text="Ready" minWidth="150"/>
-            <CardSelector fx:id="cardSelector" VBox.vgrow="ALWAYS"/>
+            <Button fx:id="controlButton" text="Ready" minWidth="150"
+                onMouseClicked="#onControlButtonClicked" />
+            <CardSelector fx:id="cardSelector" VBox.vgrow="ALWAYS" />
         </VBox>
     </HBox>
 

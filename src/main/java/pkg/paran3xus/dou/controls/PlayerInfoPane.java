@@ -2,9 +2,12 @@ package pkg.paran3xus.dou.controls;
 
 import java.io.IOException;
 
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
+import pkg.paran3xus.dou.Room.Utils.RoomState;
+import pkg.paran3xus.dou.Room.Player.Player;
 
 public class PlayerInfoPane extends GridPane {
     private PlayerInfoPaneController controller;
@@ -36,5 +39,22 @@ public class PlayerInfoPane extends GridPane {
 
     public void setAvatar(Image image) {
         controller.setAvatar(image);
+    }
+
+    public void setPlayer(Player p, RoomState state) {
+        if (p == null) {
+            return;
+        }
+
+        setPlayerName(p.getNickname());
+        setAvatar(p.getAvatar());
+        switch (state) {
+            case RoomState.READY:
+                setStatus(p.getReady() ? "Ready" : "not Ready");
+                break;
+
+            default:
+                break;
+        }
     }
 }

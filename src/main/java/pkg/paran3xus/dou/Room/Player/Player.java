@@ -47,6 +47,14 @@ public class Player {
         return id;
     }
 
+    public String getNickname() {
+        return nickname;
+    }
+
+    public Image getAvatar() {
+        return avatar;
+    }
+
     public void setCards(CardCollection cards) {
         this.cards = cards;
     }

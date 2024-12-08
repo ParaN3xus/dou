@@ -24,6 +24,7 @@ public class WSServer extends WebSocketServer {
 
     public WSServer(Callback callback) {
         super(new InetSocketAddress(17963));
+        setReuseAddr(true);
         this.callback = callback;
     }
 
@@ -53,7 +54,7 @@ public class WSServer extends WebSocketServer {
     public void onError(WebSocket conn, Exception ex) {
         // System.err.println("Error occurred on connection " +
         // conn.getRemoteSocketAddress());
-        ex.printStackTrace();
+        System.out.println("server: error: " + ex);
     }
 
     @Override
@@ -109,6 +110,7 @@ public class WSServer extends WebSocketServer {
     }
 
     public void notifyId(Player p) {
+        System.out.println("server: notify id " + p.getId());
         p.getConnection().send(msgProcessor.serialize(MessageType.ID, new IdData(p.getId())));
     }
 

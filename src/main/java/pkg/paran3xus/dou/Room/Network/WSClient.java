@@ -8,6 +8,7 @@ import org.java_websocket.handshake.ServerHandshake;
 
 import javafx.scene.image.Image;
 import pkg.paran3xus.dou.Room.Network.Message.GameMessage.JoinData;
+import pkg.paran3xus.dou.Room.Network.Message.GameMessage.ReadyData;
 import pkg.paran3xus.dou.Room.Network.Message.*;
 import pkg.paran3xus.dou.Room.Player.PlayerInfo;
 import pkg.paran3xus.dou.Room.Player.Players.PlayerFullException;
@@ -56,5 +57,9 @@ public class WSClient extends WebSocketClient {
     @Override
     public void onError(Exception ex) {
         System.out.println("error: " + ex);
+    }
+
+    public void sendReady(String id) {
+        send(msgProcessor.serialize(MessageType.READY, new ReadyData(id)));
     }
 }

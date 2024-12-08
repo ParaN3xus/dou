@@ -27,10 +27,13 @@ public class Players {
             switch (p.getPos()) {
                 case 0:
                     first = new Player(p);
+                    break;
                 case 1:
                     second = new Player(p);
-                default:
+                    break;
+                case 2:
                     third = new Player(p);
+                    break;
             }
         }
     }
@@ -68,7 +71,7 @@ public class Players {
 
     public Player ofId(String id) {
         return Stream.of(first, second, third)
-                .filter(p -> p != null && p.getId() == id)
+                .filter(p -> p != null && p.getId().equals(id))
                 .findFirst()
                 .orElse(null);
     }
@@ -112,5 +115,17 @@ public class Players {
 
     public List<Player> getPlayers() {
         return Stream.of(first, second, third).toList();
+    }
+
+    public List<Player> orderedBy(String id) {
+        if (id == first.getId()) {
+            return Stream.of(first, second, third).toList();
+        }
+
+        if (id == second.getId()) {
+            return Stream.of(second, third, first).toList();
+        }
+
+        return Stream.of(third, first, second).toList();
     }
 }

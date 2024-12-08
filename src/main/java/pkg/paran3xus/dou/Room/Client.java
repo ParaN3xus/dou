@@ -73,6 +73,7 @@ public class Client {
     }
 
     protected void handleIdMessage(IdData idData) {
+        System.out.println("client: get id " + idData.getId());
         tmpId = idData.getId();
         initMe();
     }
@@ -87,6 +88,10 @@ public class Client {
             me = players.ofId(tmpId);
             callback.onPlayerChanged(players);
         }
+    }
+
+    public boolean isMeInited() {
+        return me != null;
     }
 
     protected void handleReadyMessage(ReadyData readyData) {
@@ -129,5 +134,13 @@ public class Client {
 
     protected void handleEndMessage(EndData endData) {
         callback.onEnd(endData.getIsLandlordWin());
+    }
+
+    public void sendReady() {
+        client.sendReady(me.getId());
+    }
+
+    public String getMyId() {
+        return me.getId();
     }
 }

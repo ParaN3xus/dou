@@ -2,6 +2,7 @@ package pkg.paran3xus.dou;
 
 import java.net.URI;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import javafx.application.Application;
@@ -9,6 +10,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -20,6 +22,9 @@ import pkg.paran3xus.dou.Room.Client;
 import pkg.paran3xus.dou.Room.Client.ClientCallback;
 import pkg.paran3xus.dou.Room.Server;
 import pkg.paran3xus.dou.Room.Server.ServerCallback;
+import pkg.paran3xus.dou.Room.Utils.RoomState;
+import pkg.paran3xus.dou.controls.CardSelector;
+import pkg.paran3xus.dou.controls.PlayerInfoPane;
 import pkg.paran3xus.dou.Room.Network.RoomScanner;
 import pkg.paran3xus.dou.Room.Network.RoomScanner.ScanCallback;
 import pkg.paran3xus.dou.Room.Player.Player;
@@ -41,9 +46,20 @@ public class MainController implements Initializable {
     @FXML
     private ListView<String> roomList;
 
+    @FXML
+    private PlayerInfoPane leftPlayerInfo, rightPlayerInfo, bottomPlayerInfo;
+
+    @FXML
+    private CardSelector cardSelector;
+
+    @FXML
+    private Button controlButton;
+
     private Client client;
     private Server server;
     RoomScanner scanner;
+
+    RoomState state = RoomState.READY;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -105,18 +121,39 @@ public class MainController implements Initializable {
         });
     }
 
+    @FXML
+    protected void onControlButtonClicked() {
+        switch (state) {
+            case RoomState.READY:
+                client.sendReady();
+                break;
+
+            default:
+                break;
+        }
+    }
+
     protected void connectServer(String uri) {
         System.out.println("connecting to " + uri);
         client = new Client(URI.create(uri), nicknameField.getText(), avatarImage.getImage(), new ClientCallback() {
             @Override
             public void onPlayerChanged(Players players) {
-                System.out.println("player changed");
+                if (!client.isMeInited()) {
+                    System.out.println("client f: player changed but me uninited");
+                    return;
+                }
+                System.out.println("client f: player changed");
+
+                List<Player> po = players.orderedBy(client.getMyId());
+
+                bottomPlayerInfo.setPlayer(po.get(0), state);
+                rightPlayerInfo.setPlayer(po.get(1), state);
+                leftPlayerInfo.setPlayer(po.get(2), state);
             }
 
             @Override
             public void onDist(CardCollection col) {
-                // TODO Auto-generated method stub
-                throw new UnsupportedOperationException("Unimplemented method 'onDist'");
+                cardSelector.updateCards(col.getCards());
             }
 
             @Override
@@ -163,8 +200,7 @@ public class MainController implements Initializable {
 
             @Override
             public void onError(String errorMessage) {
-                // TODO Auto-generated method stub
-                throw new UnsupportedOperationException("Unimplemented method 'onError'");
+                System.out.println("client error: " + errorMessage);
             }
         });
         client.connect();

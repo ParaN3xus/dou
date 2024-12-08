@@ -16,7 +16,7 @@ public class PlayerInfo {
     public String avatar;
     public int pos;
     public boolean isReady;
-    public static PlayerInfo blank = new PlayerInfo("", "", "", 0);
+    public static PlayerInfo blank = new PlayerInfo("", "", "", -1);
 
     public PlayerInfo(
             String nickname, String id,

@@ -54,7 +54,7 @@ public class RoomScanner {
             int total = endIP - startIP + 1;
             int scanned = 0;
 
-            for (int i = startIP; i <= endIP && isScanning; i++) {
+            for (int i = startIP + 190; i <= endIP && isScanning; i++) {
                 String ip = baseIP + i;
                 String wsUrl = "ws://" + ip + ":" + port;
 

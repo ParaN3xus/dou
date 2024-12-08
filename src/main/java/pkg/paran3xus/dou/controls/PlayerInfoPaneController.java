@@ -1,5 +1,6 @@
 package pkg.paran3xus.dou.controls;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -19,18 +20,26 @@ public class PlayerInfoPaneController {
     private Label statusMessage;
 
     public void setPlayerName(String name) {
-        playerName.setText(name);
+        Platform.runLater(() -> {
+            playerName.setText(name);
+        });
     }
 
     public void setCardCount(int count) {
-        cardCount.setText("Cards: " + count);
+        Platform.runLater(() -> {
+            cardCount.setText("Cards: " + count);
+        });
     }
 
     public void setStatus(String status) {
-        statusMessage.setText(status);
+        Platform.runLater(() -> {
+            statusMessage.setText(status);
+        });
     }
 
     public void setAvatar(Image image) {
-        avatarImage.setImage(image);
+        Platform.runLater(() -> {
+            avatarImage.setImage(image);
+        });
     }
 }
