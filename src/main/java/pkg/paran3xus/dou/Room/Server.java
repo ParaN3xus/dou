@@ -1,6 +1,7 @@
 package pkg.paran3xus.dou.Room;
 
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
 
 import org.java_websocket.WebSocket;
 
@@ -8,14 +9,19 @@ import pkg.paran3xus.dou.Game.*;
 import pkg.paran3xus.dou.Room.Utils.RoomState;
 import pkg.paran3xus.dou.Room.Network.WSServer;
 import pkg.paran3xus.dou.Room.Network.WSServer.Callback;
-import pkg.paran3xus.dou.Room.Player.Player;
-import pkg.paran3xus.dou.Room.Player.Players;
+import pkg.paran3xus.dou.Room.Player.*;
 import pkg.paran3xus.dou.Room.Player.Players.PlayerFullException;
 import pkg.paran3xus.dou.Room.Network.Message.GameMessage;
 import pkg.paran3xus.dou.Room.Network.Message.GameMessage.*;
 
 public class Server {
+    public interface ServerCallback {
+        void onServerStart();
+
+    }
+
     WSServer server;
+    ServerCallback callback;
 
     RoomState state;
     int currentWaiting;
@@ -31,7 +37,7 @@ public class Server {
     int lastChallengerIndex;
     CardCollection lastCollection;
 
-    public Server() {
+    public Server(ServerCallback callback) {
         server = new WSServer(new Callback() {
             @Override
             public void onServerMessage(GameMessage message, WebSocket conn) throws PlayerFullException {
@@ -47,9 +53,25 @@ public class Server {
                 }
             }
 
+            @Override
+            public void onServerStart() {
+                callback.onServerStart();
+            }
         });
+        this.callback = callback;
+
         state = RoomState.JOINING;
         players = new Players();
+    }
+
+    public void run() {
+        CompletableFuture.runAsync(() -> {
+            server.start();
+        });
+    }
+
+    public void stop() throws InterruptedException {
+        server.stop();
     }
 
     private void handleJoinMessage(JoinData joinData, WebSocket conn) throws PlayerFullException {

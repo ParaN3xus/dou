@@ -16,6 +16,8 @@ import pkg.paran3xus.dou.Room.Player.Players.PlayerFullException;
 public class WSServer extends WebSocketServer {
     public interface Callback {
         void onServerMessage(GameMessage message, WebSocket conn) throws PlayerFullException;
+
+        void onServerStart();
     }
 
     public Callback callback;
@@ -23,7 +25,6 @@ public class WSServer extends WebSocketServer {
     public WSServer(Callback callback) {
         super(new InetSocketAddress(17963));
         this.callback = callback;
-        this.start();
     }
 
     private MessageProcessor msgProcessor = new MessageProcessor();
@@ -50,13 +51,15 @@ public class WSServer extends WebSocketServer {
 
     @Override
     public void onError(WebSocket conn, Exception ex) {
-        System.err.println("Error occurred on connection " + conn.getRemoteSocketAddress());
+        // System.err.println("Error occurred on connection " +
+        // conn.getRemoteSocketAddress());
         ex.printStackTrace();
     }
 
     @Override
     public void onStart() {
         System.out.println("WebSocket server started");
+        callback.onServerStart();
     }
 
     public void notifyReady(ReadyData data) {

@@ -36,7 +36,13 @@ public interface GameMessage {
         public PlayersData(Players pls) {
             players = pls.getPlayers()
                     .stream()
-                    .map(x -> x.toPlayerInfo(pls.indexOf(x)))
+                    .map(x -> {
+                        if (x == null) {
+                            return PlayerInfo.blank;
+                        } else {
+                            return x.toPlayerInfo(pls.indexOf(x));
+                        }
+                    })
                     .collect(Collectors.toList());
         }
 
@@ -76,14 +82,8 @@ public interface GameMessage {
     }
 
     public static class ReadyData extends IdData {
-        private String id;
-
         public ReadyData(String id) {
             super(id);
-        }
-
-        public String getId() {
-            return id;
         }
     }
 

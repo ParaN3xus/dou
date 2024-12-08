@@ -11,13 +11,17 @@ import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
 
 public class PlayerInfo {
-    private String nickname;
-    private String id;
-    private String avatar;
-    private int pos;
-    private boolean isReady;
+    public String nickname;
+    public String id;
+    public String avatar;
+    public int pos;
+    public boolean isReady;
+    public static PlayerInfo blank = new PlayerInfo("", "", "", 0);
 
-    public PlayerInfo(String nickname, String id, String avatar, int pos) {
+    public PlayerInfo(
+            String nickname, String id,
+            String avatar,
+            int pos) {
         this.nickname = nickname;
         this.id = id;
         this.avatar = avatar;

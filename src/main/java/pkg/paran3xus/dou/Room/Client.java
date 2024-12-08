@@ -14,7 +14,7 @@ import pkg.paran3xus.dou.Room.Player.Players.PlayerFullException;
 
 public class Client {
 
-    interface ClientCallback {
+    public interface ClientCallback {
         void onPlayerChanged(Players players);
 
         void onDist(CardCollection col);
@@ -66,6 +66,10 @@ public class Client {
             }
         });
         this.callback = callback;
+    }
+
+    public void connect() {
+        client.connect();
     }
 
     protected void handleIdMessage(IdData idData) {

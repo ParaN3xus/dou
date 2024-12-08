@@ -35,9 +35,9 @@ public class Card implements Comparable<Card> {
 
     public class CardInfo {
         // 0: spade, 1: heart, 2: club, 3: diamond, 4: joker
-        int suit;
+        public int suit;
 
-        int value;
+        public int value;
 
         CardInfo(int suit, int value) {
             this.suit = suit;
