@@ -19,6 +19,8 @@ public class Client {
 
         void onDist(CardCollection col);
 
+        void onDistHidden(String id, CardCollection col);
+
         void onPlayerBid(String id, boolean isBid);
 
         void onPlayerBidding(String id);
@@ -50,6 +52,7 @@ public class Client {
                     case ReadyData readyData -> handleReadyMessage(readyData);
                     case LeaveData leaveData -> handleLeaveMessage(leaveData);
                     case ChatData chatData -> handleChatMessage(chatData);
+                    case DistHiddenData distHiddenData -> handleDistHiddenMessage(distHiddenData);
                     case DistData distData -> handleDistMessage(distData);
                     case MoveData moveData -> handleMoveMessage(moveData);
                     case BidData bidData -> handleBidMessage(bidData);
@@ -105,6 +108,10 @@ public class Client {
 
     protected void handleDistMessage(DistData distData) {
         callback.onDist(distData.getCardCollection());
+    }
+
+    protected void handleDistHiddenMessage(DistHiddenData distHiddenData) {
+        callback.onDistHidden(distHiddenData.getId(), distHiddenData.getCardCollection());
     }
 
     protected void handleChatMessage(ChatData chatData) {

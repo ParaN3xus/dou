@@ -135,13 +135,10 @@ public interface GameMessage {
         }
     }
 
-    public static class DistHiddenData implements GameMessage {
-        private List<Card.CardInfo> cards;
-
-        public DistHiddenData(List<Card.CardInfo> cards) {
-            this.cards = cards;
+    public static class DistHiddenData extends DistData {
+        public DistHiddenData(String id, List<Card.CardInfo> cards) {
+            super(id, cards);
         }
-        // getters and setters
     }
 
     public static class BidData implements GameMessage {
