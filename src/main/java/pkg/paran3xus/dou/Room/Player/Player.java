@@ -1,19 +1,10 @@
 package pkg.paran3xus.dou.Room.Player;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.util.Base64;
-
-import javax.imageio.ImageIO;
-
 import org.java_websocket.WebSocket;
 
-import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
 import pkg.paran3xus.dou.Game.CardCollection;
 import pkg.paran3xus.dou.Room.Network.Message.GameMessage.JoinData;
-
-import java.awt.image.BufferedImage;
 
 public class Player {
 

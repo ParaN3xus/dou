@@ -1,13 +1,7 @@
 package pkg.paran3xus.dou.Game;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collector;
+import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class Card implements Comparable<Card> {
     enum Suit {

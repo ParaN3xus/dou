@@ -1,21 +1,14 @@
 package pkg.paran3xus.dou.Room.Network;
 
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
 import java.net.URI;
 import java.util.UUID;
-
-import javax.imageio.ImageIO;
 
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
 
 import javafx.scene.image.Image;
-import pkg.paran3xus.dou.Room.Network.Message.GameMessage;
 import pkg.paran3xus.dou.Room.Network.Message.GameMessage.JoinData;
-import pkg.paran3xus.dou.Room.Network.Message.MessageProcessor;
-import pkg.paran3xus.dou.Room.Network.Message.MessageType;
-import pkg.paran3xus.dou.Room.Player.Player;
+import pkg.paran3xus.dou.Room.Network.Message.*;
 import pkg.paran3xus.dou.Room.Player.PlayerInfo;
 import pkg.paran3xus.dou.Room.Player.Players.PlayerFullException;
 
