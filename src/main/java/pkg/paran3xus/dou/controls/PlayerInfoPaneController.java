@@ -1,4 +1,4 @@
-package pkg.paran3xus.dou.Controls;
+package pkg.paran3xus.dou.controls;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;

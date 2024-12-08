@@ -12,6 +12,8 @@
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.ImageView?>
+<?import pkg.paran3xus.dou.controls.PlayerInfoPane?>
+<?import pkg.paran3xus.dou.controls.CardSelector?>
 
 <?import javafx.scene.control.Button?>
 <AnchorPane fx:id="root" xmlns:fx="http://javafx.com/fxml"
@@ -23,23 +25,32 @@
     <VBox alignment="CENTER_LEFT" AnchorPane.leftAnchor="20.0"
         AnchorPane.topAnchor="0.0"
         AnchorPane.bottomAnchor="0.0">
-        <fx:include fx:id="leftPlayerInfo" source="controls/PlayerInfoPane.fxml" />
+        <PlayerInfoPane fx:id="leftPlayerInfo" />
     </VBox>
 
     <VBox alignment="CENTER_RIGHT" AnchorPane.rightAnchor="20.0"
         AnchorPane.topAnchor="0.0"
         AnchorPane.bottomAnchor="0.0">
-        <fx:include fx:id="rightPlayerInfo" source="controls/PlayerInfoPane.fxml" />
+        <PlayerInfoPane fx:id="rightPlayerInfo" />
     </VBox>
-
-    <VBox alignment="BOTTOM_LEFT"
-        AnchorPane.topAnchor="0.0"
-        AnchorPane.bottomAnchor="0.0">
-        <fx:include fx:id="bottomPlayerInfo" source="controls/PlayerInfoPane.fxml" />
+    <HBox alignment="BOTTOM_CENTER"
+          AnchorPane.bottomAnchor="0.0"
+          AnchorPane.leftAnchor="0.0"
+          AnchorPane.rightAnchor="0.0">
         <padding>
-            <Insets bottom="20.0" left="20.0" />
+            <Insets bottom="20.0" left="20.0" right="20.0"/>
         </padding>
-    </VBox>
+
+        <VBox alignment="BOTTOM_LEFT" minWidth="60" HBox.hgrow="NEVER">
+            <PlayerInfoPane fx:id="bottomPlayerInfo" />
+        </VBox>
+
+        <VBox alignment="BOTTOM_CENTER" HBox.hgrow="ALWAYS">
+            <Button fx:id="controlButton" text="Ready" minWidth="150"/>
+            <CardSelector fx:id="cardSelector" VBox.vgrow="ALWAYS"/>
+        </VBox>
+    </HBox>
+
 
     <VBox fx:id="controlPanel" alignment="CENTER" spacing="10.0" maxWidth="300"
         AnchorPane.topAnchor="0.0"

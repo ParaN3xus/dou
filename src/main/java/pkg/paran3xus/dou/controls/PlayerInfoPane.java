@@ -1,4 +1,4 @@
-package pkg.paran3xus.dou.Controls;
+package pkg.paran3xus.dou.controls;
 
 import java.io.IOException;
 
@@ -11,11 +11,11 @@ public class PlayerInfoPane extends GridPane {
 
     public PlayerInfoPane() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("controls/PlayerInfoPane.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("PlayerInfoPane.fxml"));
+
             GridPane root = loader.load();
             controller = loader.getController();
 
-            // 将加载的内容添加到这个组件中
             getChildren().add(root);
         } catch (IOException e) {
             e.printStackTrace();
