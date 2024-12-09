@@ -219,7 +219,7 @@ public class Server {
 
         nextWaiting();
         server.notifyAskMove(
-                new AskMoveData(players.ofIndex(currentWaiting).getId(), lastChallengerIndex == currentWaiting));
+                new AskMoveData(players.ofIndex(currentWaiting).getId(), lastChallengerIndex != currentWaiting));
     }
 
     private void handleChatMessage(ChatData chatData) {

@@ -165,4 +165,8 @@ public class Client {
     public Players getPlayers() {
         return players;
     }
+
+    public void stop() {
+        client.close();
+    }
 }

@@ -9,6 +9,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -17,7 +18,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import pkg.paran3xus.dou.Game.Card;
 import pkg.paran3xus.dou.Game.CardCollection;
+import pkg.paran3xus.dou.Game.CardCollection.Type;
 import pkg.paran3xus.dou.Room.Client;
 import pkg.paran3xus.dou.Room.Client.ClientCallback;
 import pkg.paran3xus.dou.Room.Server;
@@ -61,6 +64,9 @@ public class MainController implements Initializable {
     RoomScanner scanner;
 
     RoomState state = RoomState.READY;
+
+    boolean skippable;
+    CardCollection lastCardCollection;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -122,6 +128,14 @@ public class MainController implements Initializable {
         });
     }
 
+    protected void alert(String msg) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("提示");
+        alert.setHeaderText(null);
+        alert.setContentText(msg);
+        alert.showAndWait();
+    }
+
     @FXML
     protected void onControlButtonClicked() {
         switch (state) {
@@ -133,8 +147,21 @@ public class MainController implements Initializable {
                 client.sendBid(true);
                 break;
             case RoomState.PLAYING:
-                client.sendMove(cardSelector.getSelectedCards());
-                cardSelector.removeCards(cardSelector.getSelectedCards());
+                List<Card> cards = cardSelector.getSelectedCards();
+                CardCollection col = new CardCollection(cards);
+
+                if (col.getType() == Type.INVALID || col.getType() == Type.EMPTY) {
+                    alert("invalid move!");
+                    return;
+                }
+
+                if (skippable && !col.canBeat(lastCardCollection)) {
+                    alert("can't beat!");
+                    return;
+                }
+
+                client.sendMove(cards);
+                cardSelector.removeCards(cards);
                 break;
             default:
                 break;
@@ -240,6 +267,7 @@ public class MainController implements Initializable {
             @Override
             public void onPlayerMoving(String id, boolean skippable) {
                 Platform.runLater(() -> {
+                    setSkippable(skippable);
                     playerInfoPaneOfId(id).setStatus("Moving");
 
                     state = RoomState.PLAYING;
@@ -257,12 +285,17 @@ public class MainController implements Initializable {
                 PlayerInfoPane pane = playerInfoPaneOfId(id);
                 pane.setStatus(col.toString());
                 pane.substractCardCount(col.getCardsCount());
+
+                if (!col.isEmpty()) {
+                    lastCardCollection = col;
+                }
             }
 
             @Override
             public void onEnd(Boolean isLandlordWin) {
-                // TODO Auto-generated method stub
-                throw new UnsupportedOperationException("Unimplemented method 'onEnd'");
+                alert("Game ended. Winner: " + (isLandlordWin ? "Landlord" : "Farmers") + "!");
+
+                controlPanel.setVisible(true);
             }
 
             @Override
@@ -277,5 +310,9 @@ public class MainController implements Initializable {
             }
         });
         client.connect();
+    }
+
+    public void setSkippable(boolean skippable) {
+        this.skippable = skippable;
     }
 }

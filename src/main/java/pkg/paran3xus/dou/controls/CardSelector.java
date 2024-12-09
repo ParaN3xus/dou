@@ -92,7 +92,7 @@ public class CardSelector extends Pane {
             getChildren().add(cardView);
         }
 
-        cardViews.sort((cv1, cv2) -> cv2.card.compareTo(cv1.card));
+        cardViews.sort((cv1, cv2) -> cv1.card.compareTo(cv2.card));
 
         rearrangeCards();
     }
@@ -105,7 +105,7 @@ public class CardSelector extends Pane {
         }
 
         for (int i = cardViews.size() - 1; i >= 0; i--) {
-            cardViews.get(i).toFront();
+            cardViews.get(i).toBack();
         }
     }
 
