@@ -31,6 +31,7 @@ public class CardSelector extends Pane {
         setOnMousePressed(this::handleMousePressed);
         setOnMouseDragged(this::handleMouseDragged);
         setOnMouseReleased(this::handleMouseReleased);
+
     }
 
     @FXML
@@ -54,9 +55,10 @@ public class CardSelector extends Pane {
 
             updateCardDisplay();
 
-            setOnMouseClicked(_ -> {
+            setOnMouseClicked(event -> {
                 if (!isDragging) {
                     toggleSelect();
+                    event.consume();
                 }
             });
         }
@@ -128,6 +130,10 @@ public class CardSelector extends Pane {
         startX = event.getX();
         isDragging = false;
         cardsInDragRange.clear();
+
+        if (event.getTarget() == this) {
+            return;
+        }
     }
 
     private void handleMouseDragged(MouseEvent event) {

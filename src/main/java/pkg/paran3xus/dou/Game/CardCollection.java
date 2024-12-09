@@ -250,12 +250,8 @@ public class CardCollection implements Comparable<CardCollection> {
     }
 
     public void subtract(CardCollection col) {
-        List<Card> resultCards = new ArrayList<>(this.cards);
+        cards.removeAll(col.cards);
 
-        resultCards.removeAll(col.cards);
-
-        this.cards.clear();
-        this.cards.addAll(resultCards);
         Collections.sort(this.cards);
 
         this.type = determineType();
@@ -272,5 +268,9 @@ public class CardCollection implements Comparable<CardCollection> {
 
     public int getCardsCount() {
         return cards.size();
+    }
+
+    public void addCards(List<Card> cds) {
+        cards.addAll(cds);
     }
 }

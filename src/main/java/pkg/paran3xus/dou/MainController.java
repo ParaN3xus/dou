@@ -300,9 +300,14 @@ public class MainController implements Initializable {
 
             @Override
             public void onEnd(Boolean isLandlordWin) {
-                alert("Game ended. Winner: " + (isLandlordWin ? "Landlord" : "Farmers") + "!");
+                System.out
+                        .println("clientf: " + "Game ended. Winner: " + (isLandlordWin ? "Landlord" : "Farmers") + "!");
+                Platform.runLater(() -> {
+                    alert("Game ended. Winner: " + (isLandlordWin ? "Landlord" : "Farmers") + "!");
 
-                controlPanel.setVisible(true);
+                    controlPanel.setVisible(true);
+                    client.stop();
+                });
             }
 
             @Override

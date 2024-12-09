@@ -74,4 +74,8 @@ public class Player {
     public PlayerInfo toPlayerInfo(int index) {
         return new PlayerInfo(nickname, id, avatar, isReady, index);
     }
+
+    public void distHiddenCard(CardCollection col) {
+        cards.addCards(col.getCards());
+    }
 }

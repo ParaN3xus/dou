@@ -119,6 +119,7 @@ public class Server {
     private void beginMove() {
         System.out.println("server: begin move! game start!");
         state = RoomState.PLAYING;
+        players.ofIndex(landlordIndex).distHiddenCard(hiddenCards);
         server.notifyDistHiddenCards(players.ofIndex(landlordIndex), hiddenCards);
         server.notifyAskMove(new AskMoveData(players.ofIndex(landlordIndex).getId(), false));
         lastChallengerIndex = landlordIndex;
