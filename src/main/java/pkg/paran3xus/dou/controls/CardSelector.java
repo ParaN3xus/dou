@@ -15,6 +15,7 @@ public class CardSelector extends Pane {
     private final List<CardView> cardViews = new ArrayList<>();
     private double startX;
     private boolean isDragging = false;
+    private List<CardView> cardsInDragRange = new ArrayList<>();
 
     public CardSelector() {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("CardSelector.fxml"));
@@ -44,6 +45,12 @@ public class CardSelector extends Pane {
             this.card = card;
             setPrefSize(80, 120);
             getStyleClass().add("card-view");
+
+            javafx.scene.text.Text text = new javafx.scene.text.Text(card.getValueName());
+            text.setX(10);
+            text.setY(30);
+            text.setStyle("-fx-font-size: 16px;");
+            getChildren().add(text);
 
             updateCardDisplay();
 
@@ -78,6 +85,26 @@ public class CardSelector extends Pane {
         }
     }
 
+    public void addCards(List<Card> cards) {
+        for (Card card : cards) {
+            CardView cardView = new CardView(card);
+            cardViews.add(cardView);
+            getChildren().add(cardView);
+        }
+
+        cardViews.sort((cv1, cv2) -> cv2.card.compareTo(cv1.card));
+
+        rearrangeCards();
+    }
+
+    public void rearrangeCards() {
+        for (int i = 0; i < cardViews.size(); i++) {
+            CardView cardView = cardViews.get(i);
+            cardView.setLayoutX(i * 40);
+            cardView.setLayoutY(20);
+        }
+    }
+
     public List<Card> getSelectedCards() {
         return cardViews.stream()
                 .filter(cv -> cv.selected)
@@ -96,6 +123,7 @@ public class CardSelector extends Pane {
     private void handleMousePressed(MouseEvent event) {
         startX = event.getX();
         isDragging = false;
+        cardsInDragRange.clear();
     }
 
     private void handleMouseDragged(MouseEvent event) {
@@ -104,23 +132,35 @@ public class CardSelector extends Pane {
         double minX = Math.min(startX, currentX);
         double maxX = Math.max(startX, currentX);
 
+        cardsInDragRange.clear();
         for (CardView cardView : cardViews) {
             if (cardView.getLayoutX() >= minX && cardView.getLayoutX() <= maxX) {
-                cardView.selected = !cardView.selected;
-                cardView.setTranslateY(cardView.selected ? -20 : 0);
+                cardsInDragRange.add(cardView);
+                cardView.setStyle("-fx-border-color: blue;");
+            } else {
+                cardView.updateCardDisplay();
             }
         }
     }
 
     private void handleMouseReleased(MouseEvent event) {
-        if (!isDragging) {
+        if (isDragging) {
+            for (CardView cardView : cardsInDragRange) {
+                cardView.selected = !cardView.selected;
+                cardView.setTranslateY(cardView.selected ? -20 : 0);
+                cardView.updateCardDisplay();
+            }
+        } else {
             double x = event.getX();
-            cardViews.stream()
-                    .filter(cv -> x >= cv.getLayoutX() &&
-                            x <= cv.getLayoutX() + cv.getPrefWidth())
+            ArrayList<CardView> reversedList = new ArrayList<>(cardViews);
+            java.util.Collections.reverse(reversedList);
+            reversedList.stream()
+                    .filter(cv -> x >= cv.getLayoutX() && x <= cv.getLayoutX() + cv.getPrefWidth())
                     .findFirst()
                     .ifPresent(CardView::toggleSelect);
         }
         isDragging = false;
+        cardsInDragRange.clear();
     }
+
 }
