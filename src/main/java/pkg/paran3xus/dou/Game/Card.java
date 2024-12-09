@@ -220,10 +220,10 @@ public class Card implements Comparable<Card> {
             return "2";
         }
         if (v == 16) {
-            return "Joker S";
+            return "JokerS";
         }
         if (v == 17) {
-            return "Joker B";
+            return "JokerB";
         }
         return "U";
     }
