@@ -244,14 +244,12 @@ public class Card implements Comparable<Card> {
             return "♦";
         }
         return "\uD83E\uDD21";
-
     }
 
-    public Color getColor(){
-        if(suit == Suit.SPADE || suit == Suit.CLUB|| value == Value.SMALL_JOKER ){
+    public Color getColor() {
+        if (suit == Suit.SPADE || suit == Suit.CLUB || value == Value.SMALL_JOKER) {
             return Color.BLACK;
         }
         return Color.RED;
-
     }
 }
