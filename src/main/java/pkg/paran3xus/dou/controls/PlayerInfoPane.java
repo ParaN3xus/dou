@@ -48,6 +48,10 @@ public class PlayerInfoPane extends GridPane {
         controller.setAvatar(image);
     }
 
+    public void setIdentity(boolean isLandlord) {
+        controller.setIdentity(isLandlord);
+    }
+
     public void setPlayer(Player p, RoomState state) {
         if (p == null) {
             return;

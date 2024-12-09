@@ -4,6 +4,9 @@ import java.net.URI;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -241,6 +244,7 @@ public class MainController implements Initializable {
                 Platform.runLater(() -> {
                     PlayerInfoPane pane = playerInfoPaneOfId(id);
                     pane.setStatus("Landlord!");
+                    pane.setIdentity(true);
                     pane.addCardCount(3);
 
                     hiddenCardsLabel.setText(col.toString());
@@ -248,6 +252,14 @@ public class MainController implements Initializable {
                     if (id.equals(client.getMyId())) {
                         cardSelector.addCards(col.getCards());
                     }
+
+                    for (PlayerInfoPane p : Stream.of(leftPlayerInfo, rightPlayerInfo, bottomPlayerInfo)
+                            .collect(Collectors.toList())) {
+                        if (p != pane) {
+                            p.setIdentity(false);
+                        }
+                    }
+                    ;
                 });
             }
 

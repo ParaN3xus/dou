@@ -18,6 +18,8 @@ public class PlayerInfoPaneController {
     private Label cardCount;
     @FXML
     private Label statusMessage;
+    @FXML
+    private Label playerIdentity;
 
     int count;
 
@@ -47,6 +49,12 @@ public class PlayerInfoPaneController {
     public void setAvatar(Image image) {
         Platform.runLater(() -> {
             avatarImage.setImage(image);
+        });
+    }
+
+    public void setIdentity(boolean isLandlord) {
+        Platform.runLater(() -> {
+            playerIdentity.setText(isLandlord ? "Landlord" : "Farmer");
         });
     }
 }

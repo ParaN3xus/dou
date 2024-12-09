@@ -15,6 +15,7 @@
     <VBox alignment="CENTER" GridPane.columnIndex="0">
         <ImageView fx:id="avatarImage" fitHeight="60.0" fitWidth="60.0" preserveRatio="true" />
         <Label fx:id="playerName" text="Player" />
+        <Label fx:id="playerIdentity" text="Unknown" />
     </VBox>
 
     <VBox alignment="CENTER" GridPane.columnIndex="1">
