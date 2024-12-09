@@ -54,7 +54,7 @@ public class CardSelector extends Pane {
 
             updateCardDisplay();
 
-            setOnMouseClicked(event -> {
+            setOnMouseClicked(_ -> {
                 if (!isDragging) {
                     toggleSelect();
                 }

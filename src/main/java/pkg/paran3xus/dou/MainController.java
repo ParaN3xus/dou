@@ -5,7 +5,6 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -24,13 +23,10 @@ import pkg.paran3xus.dou.Room.Client.ClientCallback;
 import pkg.paran3xus.dou.Room.Server;
 import pkg.paran3xus.dou.Room.Server.ServerCallback;
 import pkg.paran3xus.dou.Room.Utils.RoomState;
-import pkg.paran3xus.dou.controls.CardSelector;
-import pkg.paran3xus.dou.controls.PlayerInfoPane;
+import pkg.paran3xus.dou.controls.*;
 import pkg.paran3xus.dou.Room.Network.RoomScanner;
 import pkg.paran3xus.dou.Room.Network.RoomScanner.ScanCallback;
-import pkg.paran3xus.dou.Room.Player.Player;
-import pkg.paran3xus.dou.Room.Player.PlayerInfo;
-import pkg.paran3xus.dou.Room.Player.Players;
+import pkg.paran3xus.dou.Room.Player.*;
 
 public class MainController implements Initializable {
     @FXML

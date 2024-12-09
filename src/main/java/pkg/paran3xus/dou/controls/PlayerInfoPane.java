@@ -2,7 +2,6 @@ package pkg.paran3xus.dou.controls;
 
 import java.io.IOException;
 
-import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;

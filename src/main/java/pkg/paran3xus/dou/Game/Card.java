@@ -4,7 +4,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class Card implements Comparable<Card> {
-    enum Suit {
+    public enum Suit {
         SPADE, HEART, CLUB, DIAMOND, JOKER
     }
 
