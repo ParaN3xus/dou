@@ -42,7 +42,7 @@ public class MainController implements Initializable {
     private VBox controlPanel;
 
     @FXML
-    private TextField nicknameField;
+    private TextField nicknameField, serverField;
 
     @FXML
     private ImageView avatarImage;
@@ -79,6 +79,13 @@ public class MainController implements Initializable {
         });
         scanner = new RoomScanner(32, 100);
 
+        roomList.getSelectionModel().selectedItemProperty().addListener(
+                (newValue) -> {
+                    if (newValue != null) {
+                        serverField.setText(roomList.getSelectionModel().getSelectedItem());
+                    }
+                });
+
         Platform.runLater(() -> {
             avatarImage.setImage(new Image(MainApplication.class.getResourceAsStream("images/dou.png")));
 
@@ -102,7 +109,7 @@ public class MainController implements Initializable {
     @FXML
     protected void onJoinRoomButtonClicked() {
         controlPanel.setVisible(false);
-        connectServer(roomList.getSelectionModel().getSelectedItem());
+        connectServer(serverField.getText());
     }
 
     @FXML
