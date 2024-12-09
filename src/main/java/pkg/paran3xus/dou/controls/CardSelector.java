@@ -31,7 +31,6 @@ public class CardSelector extends Pane {
         setOnMousePressed(this::handleMousePressed);
         setOnMouseDragged(this::handleMouseDragged);
         setOnMouseReleased(this::handleMouseReleased);
-
     }
 
     @FXML
@@ -56,6 +55,7 @@ public class CardSelector extends Pane {
             updateCardDisplay();
 
             setOnMouseClicked(event -> {
+                System.out.println("clicked!");
                 if (!isDragging) {
                     toggleSelect();
                     event.consume();
@@ -144,7 +144,8 @@ public class CardSelector extends Pane {
 
         cardsInDragRange.clear();
         for (CardView cardView : cardViews) {
-            if (cardView.getLayoutX() >= minX && cardView.getLayoutX() <= maxX) {
+            double w = cardView.getWidth();
+            if (cardView.getLayoutX() >= minX - w / 2 && cardView.getLayoutX() <= maxX) {
                 cardsInDragRange.add(cardView);
                 cardView.setStyle("-fx-border-color: blue;");
             } else {
@@ -160,14 +161,6 @@ public class CardSelector extends Pane {
                 cardView.setTranslateY(cardView.selected ? -20 : 0);
                 cardView.updateCardDisplay();
             }
-        } else {
-            double x = event.getX();
-            ArrayList<CardView> reversedList = new ArrayList<>(cardViews);
-            java.util.Collections.reverse(reversedList);
-            reversedList.stream()
-                    .filter(cv -> x >= cv.getLayoutX() && x <= cv.getLayoutX() + cv.getPrefWidth())
-                    .findFirst()
-                    .ifPresent(CardView::toggleSelect);
         }
         isDragging = false;
         cardsInDragRange.clear();
