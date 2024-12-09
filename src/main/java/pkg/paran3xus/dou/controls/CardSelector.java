@@ -46,10 +46,11 @@ public class CardSelector extends Pane {
             setPrefSize(80, 120);
             getStyleClass().add("card-view");
 
-            javafx.scene.text.Text text = new javafx.scene.text.Text(card.getValueName());
+            javafx.scene.text.Text text = new javafx.scene.text.Text(card.getSuitSymbol()+"\n" +card.getValueName() );
             text.setX(10);
             text.setY(30);
             text.setStyle("-fx-font-size: 16px;");
+            text.setFill(card.getColor());
             getChildren().add(text);
 
             updateCardDisplay();

@@ -263,7 +263,7 @@ public class CardCollection implements Comparable<CardCollection> {
     }
 
     public String toString() {
-        return cards.stream().map(x -> x.getValueName()).collect(Collectors.joining());
+        return cards.stream().map(x -> x.getValueName()).collect(Collectors.joining(" "));
     }
 
     public int getCardsCount() {

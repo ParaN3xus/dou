@@ -1,5 +1,7 @@
 package pkg.paran3xus.dou.Game;
 
+import javafx.scene.paint.Color;
+
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -200,7 +202,7 @@ public class Card implements Comparable<Card> {
             return Integer.toString(v);
         }
         if (v == 10) {
-            return "T";
+            return "10";
         }
         if (v == 11) {
             return "J";
@@ -218,11 +220,38 @@ public class Card implements Comparable<Card> {
             return "2";
         }
         if (v == 16) {
-            return "S";
+            return "Joker S";
         }
         if (v == 17) {
-            return "B";
+            return "Joker B";
         }
         return "U";
+    }
+
+    public String getSuitSymbol() {
+        int s = suit.ordinal();
+        if (s == 0) {
+            return "♠";
+
+        }
+        if (s == 1) {
+            return "♥";
+        }
+        if (s == 2) {
+            return "♣";
+        }
+        if (s == 3) {
+            return "♦";
+        }
+        return "\uD83E\uDD21";
+
+    }
+
+    public Color getColor(){
+        if(suit == Suit.SPADE || suit == Suit.CLUB|| value == Value.SMALL_JOKER ){
+            return Color.BLACK;
+        }
+        return Color.RED;
+
     }
 }
