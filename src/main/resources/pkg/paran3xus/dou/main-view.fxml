@@ -66,7 +66,7 @@
         AnchorPane.rightAnchor="0.0">
         <HBox alignment="CENTER" spacing="10.0">
             <ImageView fx:id="avatarImage" fitHeight="100.0" fitWidth="100.0"
-                preserveRatio="true" />
+                preserveRatio="true" onMouseClicked="#onAvatarImageClicked" />
             <TextField fx:id="nicknameField" promptText="Enter nickname" text="zmx" maxWidth="200" />
         </HBox>
 

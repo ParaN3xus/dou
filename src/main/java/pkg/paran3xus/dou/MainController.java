@@ -1,5 +1,7 @@
 package pkg.paran3xus.dou;
 
+import java.io.File;
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
 import java.util.List;
@@ -20,6 +22,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import pkg.paran3xus.dou.Game.Card;
 import pkg.paran3xus.dou.Game.CardCollection;
@@ -150,6 +153,27 @@ public class MainController implements Initializable {
         alert.setHeaderText(null);
         alert.setContentText(msg);
         alert.showAndWait();
+    }
+
+    @FXML
+    protected void onAvatarImageClicked() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Choose avatar");
+
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Image file", "*.png", "*.jpg", "*.jpeg", "*.gif", "*.bmp"));
+
+        File selectedFile = fileChooser.showOpenDialog(avatarImage.getScene().getWindow());
+
+        if (selectedFile != null) {
+            try {
+                String imageUrl = selectedFile.toURI().toURL().toString();
+                Image image = new Image(imageUrl);
+                avatarImage.setImage(image);
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @FXML
