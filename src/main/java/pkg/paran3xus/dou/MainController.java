@@ -6,11 +6,12 @@ import java.net.URI;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
@@ -18,6 +19,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -42,13 +44,13 @@ public class MainController implements Initializable {
     private Parent root;
 
     @FXML
-    private Label hiddenCardsLabel;
+    private Label hiddenCardsLabel, chatMessagesLabel;
 
     @FXML
     private VBox controlPanel;
 
     @FXML
-    private TextField nicknameField, serverField;
+    private TextField nicknameField, serverField, chatInputField;
 
     @FXML
     private ImageView avatarImage;
@@ -61,6 +63,9 @@ public class MainController implements Initializable {
 
     @FXML
     private CardSelector cardSelector;
+
+    @FXML
+    private ScrollPane chatMessageScrollPane;
 
     @FXML
     private Button controlButton, controlNotButton;
@@ -103,6 +108,13 @@ public class MainController implements Initializable {
 
                 }
             });
+        });
+
+        chatMessagesLabel.heightProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                chatMessageScrollPane.setVvalue(chatMessageScrollPane.getVmax());
+            }
         });
     }
 
@@ -222,6 +234,12 @@ public class MainController implements Initializable {
             default:
                 break;
         }
+    }
+
+    @FXML
+    protected void onChatInputAction() {
+        client.sendChat(chatInputField.getText());
+        chatInputField.setText("");
     }
 
     protected PlayerInfoPane playerInfoPaneOfId(String id) {
@@ -354,8 +372,9 @@ public class MainController implements Initializable {
 
             @Override
             public void onChat(Player p, String msg) {
-                // TODO Auto-generated method stub
-                throw new UnsupportedOperationException("Unimplemented method 'onChat'");
+                Platform.runLater(() -> {
+                    chatMessagesLabel.setText(chatMessagesLabel.getText() + p.getNickname() + ": " + msg + "\n");
+                });
             }
 
             @Override

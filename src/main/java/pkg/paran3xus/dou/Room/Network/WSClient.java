@@ -9,10 +9,7 @@ import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
 
 import javafx.scene.image.Image;
-import pkg.paran3xus.dou.Room.Network.Message.GameMessage.BidData;
-import pkg.paran3xus.dou.Room.Network.Message.GameMessage.JoinData;
-import pkg.paran3xus.dou.Room.Network.Message.GameMessage.MoveData;
-import pkg.paran3xus.dou.Room.Network.Message.GameMessage.ReadyData;
+import pkg.paran3xus.dou.Room.Network.Message.GameMessage.*;
 import pkg.paran3xus.dou.Game.Card;
 import pkg.paran3xus.dou.Room.Network.Message.*;
 import pkg.paran3xus.dou.Room.Player.PlayerInfo;
@@ -75,5 +72,9 @@ public class WSClient extends WebSocketClient {
     public void sendMove(String id, List<Card> cards) {
         send(msgProcessor.serialize(MessageType.MOVE,
                 new MoveData(id, cards.stream().map(x -> x.GetCardInfo()).collect(Collectors.toList()))));
+    }
+
+    public void sendChat(String id, String msg) {
+        send(msgProcessor.serialize(MessageType.CHAT, new ChatData(id, msg)));
     }
 }

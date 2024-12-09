@@ -75,6 +75,10 @@ public class Client {
         client.connect();
     }
 
+    public void sendChat(String msg) {
+        client.sendChat(me.getId(), msg);
+    }
+
     protected void handleIdMessage(IdData idData) {
         System.out.println("client: get id " + idData.getId());
         tmpId = idData.getId();
@@ -131,7 +135,7 @@ public class Client {
     }
 
     protected void handleChatMessage(ChatData chatData) {
-        callback.onChat(players.ofId(chatData.getId()), tmpId);
+        callback.onChat(players.ofId(chatData.getId()), chatData.getMsg());
     }
 
     protected void handleLeaveMessage(LeaveData leaveData) {
