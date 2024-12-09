@@ -13,7 +13,7 @@ public enum MessageType {
     ASK_MOVE(AskMoveData.class),
     MOVE(MoveData.class),
     DIST(DistData.class),
-    DIST_HIDDEN(DistData.class),
+    DIST_HIDDEN(DistHiddenData.class),
     END(EndData.class),
     LEAVE(LeaveData.class);
 

@@ -76,8 +76,15 @@ public interface GameMessage {
     }
 
     public static class AskMoveData extends IdData {
-        public AskMoveData(String id) {
+        boolean skippable;
+
+        public AskMoveData(String id, boolean skippable) {
             super(id);
+            this.skippable = skippable;
+        }
+
+        public boolean getSkippable() {
+            return skippable;
         }
     }
 

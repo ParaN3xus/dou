@@ -120,7 +120,7 @@ public class Server {
         System.out.println("server: begin move! game start!");
         state = RoomState.PLAYING;
         server.notifyDistHiddenCards(players.ofIndex(landlordIndex), hiddenCards);
-        server.notifyAskMove(new AskMoveData(players.ofIndex(landlordIndex).getId()));
+        server.notifyAskMove(new AskMoveData(players.ofIndex(landlordIndex).getId(), false));
         lastChallengerIndex = landlordIndex;
     }
 
@@ -218,7 +218,8 @@ public class Server {
         server.notifyMove(moveData);
 
         nextWaiting();
-        server.notifyAskMove(new AskMoveData(players.ofIndex(currentWaiting).getId()));
+        server.notifyAskMove(
+                new AskMoveData(players.ofIndex(currentWaiting).getId(), lastChallengerIndex == currentWaiting));
     }
 
     private void handleChatMessage(ChatData chatData) {

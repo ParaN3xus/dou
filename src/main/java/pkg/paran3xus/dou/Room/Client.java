@@ -28,7 +28,7 @@ public class Client {
 
         void onPlayerBidding(String id);
 
-        void onPlayerMoving(String id);
+        void onPlayerMoving(String id, boolean skippable);
 
         void onPlayerMove(String id, CardCollection col);
 
@@ -113,7 +113,7 @@ public class Client {
 
     protected void handleAskMoveMessage(AskMoveData askMoveData) {
         System.out.println("client: ask move " + askMoveData.getId());
-        callback.onPlayerMoving(askMoveData.getId());
+        callback.onPlayerMoving(askMoveData.getId(), askMoveData.getSkippable());
     }
 
     protected void handleMoveMessage(MoveData moveData) {
@@ -121,10 +121,12 @@ public class Client {
     }
 
     protected void handleDistMessage(DistData distData) {
+        System.out.println("client: dist");
         callback.onDist(distData.getCardCollection());
     }
 
     protected void handleDistHiddenMessage(DistHiddenData distHiddenData) {
+        System.out.println("client: dist hidden");
         callback.onDistHidden(distHiddenData.getId(), distHiddenData.getCardCollection());
     }
 

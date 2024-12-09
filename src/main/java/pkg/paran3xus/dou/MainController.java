@@ -238,7 +238,7 @@ public class MainController implements Initializable {
             }
 
             @Override
-            public void onPlayerMoving(String id) {
+            public void onPlayerMoving(String id, boolean skippable) {
                 Platform.runLater(() -> {
                     playerInfoPaneOfId(id).setStatus("Moving");
 
@@ -248,7 +248,7 @@ public class MainController implements Initializable {
 
                     boolean neq = !id.equals(client.getMyId());
                     controlButton.setDisable(neq);
-                    controlNotButton.setDisable(neq);
+                    controlNotButton.setDisable(neq || !skippable);
                 });
             }
 

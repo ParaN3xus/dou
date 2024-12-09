@@ -103,6 +103,10 @@ public class CardSelector extends Pane {
             cardView.setLayoutX(i * 40);
             cardView.setLayoutY(20);
         }
+
+        for (int i = cardViews.size() - 1; i >= 0; i--) {
+            cardViews.get(i).toFront();
+        }
     }
 
     public List<Card> getSelectedCards() {
