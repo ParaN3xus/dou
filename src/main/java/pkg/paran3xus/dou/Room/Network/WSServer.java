@@ -116,7 +116,7 @@ public class WSServer extends WebSocketServer {
 
     public void notifyDistHiddenCards(Player player, CardCollection hiddenCards) {
         WebSocket conn = player.getConnection();
-        DistData data = new DistData(player.getId(), hiddenCards.getCardsInfo());
+        DistHiddenData data = new DistHiddenData(player.getId(), hiddenCards.getCardsInfo());
         conn.send(msgProcessor.serialize(MessageType.DIST_HIDDEN, data));
     }
 }

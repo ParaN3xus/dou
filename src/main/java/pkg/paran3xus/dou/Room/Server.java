@@ -2,6 +2,7 @@ package pkg.paran3xus.dou.Room;
 
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
 
 import org.java_websocket.WebSocket;
 
@@ -110,11 +111,13 @@ public class Server {
         firstBid = random.nextInt(3);
         currentWaiting = firstBid;
         bidRound = 0;
+        landlordIndex = -1;
         bidHist = new Boolean[] { false, false, false };
         server.notifyAskBid(new AskBidData(players.ofIndex(firstBid).getId()));
     }
 
     private void beginMove() {
+        System.out.println("server: begin move! game start!");
         state = RoomState.PLAYING;
         server.notifyDistHiddenCards(players.ofIndex(landlordIndex), hiddenCards);
         server.notifyAskMove(new AskMoveData(players.ofIndex(landlordIndex).getId()));
@@ -132,6 +135,7 @@ public class Server {
     }
 
     private void handleBidMessage(BidData bidData) {
+        System.out.println("server: bid " + bidData.getId() + " " + bidData.getBid());
         bidHelper(bidData);
         if (landlordIndex != -1) {
             currentWaiting = landlordIndex;
@@ -145,7 +149,7 @@ public class Server {
 
         nextWaiting();
 
-        int bidCount = (int) Arrays.asList(bidHist).stream().filter(x -> x).count();
+        int bidCount = Arrays.asList(bidHist).stream().collect(Collectors.summingInt(x -> x ? 1 : 0));
         if (currentWaiting == firstBid) {
             bidRound++;
 
@@ -193,11 +197,11 @@ public class Server {
         }
 
         // bidRound == 0
-        nextWaiting();
         server.notifyAskBid(new AskBidData(players.ofIndex(currentWaiting).getId()));
     }
 
     private void handleMoveMessage(MoveData moveData) {
+        System.out.println("server: move received from " + moveData.getId());
         if (!moveData.getCardInfo().isEmpty()) {
             CardCollection col = moveData.getCardCollection();
             players.ofIndex(currentWaiting).move(col);

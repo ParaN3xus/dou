@@ -64,5 +64,6 @@ public class PlayerInfoPane extends GridPane {
             default:
                 break;
         }
+        setCardCount(17);
     }
 }

@@ -1,7 +1,9 @@
 package pkg.paran3xus.dou.Room.Network;
 
 import java.net.URI;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
@@ -9,7 +11,9 @@ import org.java_websocket.handshake.ServerHandshake;
 import javafx.scene.image.Image;
 import pkg.paran3xus.dou.Room.Network.Message.GameMessage.BidData;
 import pkg.paran3xus.dou.Room.Network.Message.GameMessage.JoinData;
+import pkg.paran3xus.dou.Room.Network.Message.GameMessage.MoveData;
 import pkg.paran3xus.dou.Room.Network.Message.GameMessage.ReadyData;
+import pkg.paran3xus.dou.Game.Card;
 import pkg.paran3xus.dou.Room.Network.Message.*;
 import pkg.paran3xus.dou.Room.Player.PlayerInfo;
 import pkg.paran3xus.dou.Room.Player.Players.PlayerFullException;
@@ -66,5 +70,10 @@ public class WSClient extends WebSocketClient {
 
     public void sendBid(String id, boolean bid) {
         send(msgProcessor.serialize(MessageType.BID, new BidData(id, bid)));
+    }
+
+    public void sendMove(String id, List<Card> cards) {
+        send(msgProcessor.serialize(MessageType.MOVE,
+                new MoveData(id, cards.stream().map(x -> x.GetCardInfo()).collect(Collectors.toList()))));
     }
 }

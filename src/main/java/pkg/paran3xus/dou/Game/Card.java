@@ -195,9 +195,9 @@ public class Card implements Comparable<Card> {
     }
 
     public String getValueName() {
-        int v = value.value;
+        int v = value.getValue();
         if (v < 10) {
-            return value.toString();
+            return Integer.toString(v);
         }
         if (v == 10) {
             return "T";

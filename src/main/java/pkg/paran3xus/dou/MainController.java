@@ -11,6 +11,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -34,6 +35,9 @@ import pkg.paran3xus.dou.Room.Player.Players;
 public class MainController implements Initializable {
     @FXML
     private Parent root;
+
+    @FXML
+    private Label hiddenCardsLabel;
 
     @FXML
     private VBox controlPanel;
@@ -131,6 +135,11 @@ public class MainController implements Initializable {
                 break;
             case RoomState.BIDDING:
                 client.sendBid(true);
+                break;
+            case RoomState.PLAYING:
+                client.sendMove(cardSelector.getSelectedCards());
+                cardSelector.removeCards(cardSelector.getSelectedCards());
+                break;
             default:
                 break;
         }
@@ -143,6 +152,10 @@ public class MainController implements Initializable {
                 break;
             case RoomState.BIDDING:
                 client.sendBid(false);
+                break;
+            case RoomState.PLAYING:
+                client.sendMove(null);
+                break;
             default:
                 break;
         }
@@ -188,14 +201,24 @@ public class MainController implements Initializable {
 
             @Override
             public void onDist(CardCollection col) {
-                cardSelector.updateCards(col.getCards());
+                Platform.runLater(() -> {
+                    cardSelector.updateCards(col.getCards());
+                });
             }
 
             @Override
             public void onDistHidden(String id, CardCollection col) {
-                PlayerInfoPane pane = playerInfoPaneOfId(id);
-                pane.setStatus("Landlord!");
-                pane.addCardCount(3);
+                Platform.runLater(() -> {
+                    PlayerInfoPane pane = playerInfoPaneOfId(id);
+                    pane.setStatus("Landlord!");
+                    pane.addCardCount(3);
+
+                    hiddenCardsLabel.setText(col.toString());
+
+                    if (id.equals(client.getMyId())) {
+                        cardSelector.addCards(col.getCards());
+                    }
+                });
             }
 
             @Override
@@ -206,9 +229,8 @@ public class MainController implements Initializable {
             @Override
             public void onPlayerBidding(String id) {
                 System.out.println("clientf: bidding " + id);
-                playerInfoPaneOfId(id).setStatus("Bidding");
-
                 Platform.runLater(() -> {
+                    playerInfoPaneOfId(id).setStatus("Bidding");
                     state = RoomState.BIDDING;
                     controlButton.setText("Bid");
                     controlNotButton.setText("not Bid");
@@ -221,7 +243,17 @@ public class MainController implements Initializable {
 
             @Override
             public void onPlayerMoving(String id) {
-                playerInfoPaneOfId(id).setStatus("Moving");
+                Platform.runLater(() -> {
+                    playerInfoPaneOfId(id).setStatus("Moving");
+
+                    state = RoomState.PLAYING;
+                    controlButton.setText("Move");
+                    controlNotButton.setText("pass");
+
+                    boolean neq = !id.equals(client.getMyId());
+                    controlButton.setDisable(neq);
+                    controlNotButton.setDisable(neq);
+                });
             }
 
             @Override

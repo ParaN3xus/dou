@@ -1,8 +1,11 @@
 package pkg.paran3xus.dou.Room;
 
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
 
 import javafx.scene.image.Image;
+import pkg.paran3xus.dou.Game.Card;
 import pkg.paran3xus.dou.Game.CardCollection;
 import pkg.paran3xus.dou.Room.Network.WSClient;
 import pkg.paran3xus.dou.Room.Network.WSClient.Callback;
@@ -100,6 +103,7 @@ public class Client {
     }
 
     protected void handleAskBidMessage(AskBidData askBidData) {
+        System.out.println("client: ask bid " + askBidData.getId());
         callback.onPlayerBidding(askBidData.getId());
     }
 
@@ -108,6 +112,7 @@ public class Client {
     }
 
     protected void handleAskMoveMessage(AskMoveData askMoveData) {
+        System.out.println("client: ask move " + askMoveData.getId());
         callback.onPlayerMoving(askMoveData.getId());
     }
 
@@ -142,6 +147,13 @@ public class Client {
 
     public void sendBid(boolean bid) {
         client.sendBid(me.getId(), bid);
+    }
+
+    public void sendMove(List<Card> cards) {
+        if (cards == null) {
+            cards = new ArrayList<Card>();
+        }
+        client.sendMove(me.getId(), cards);
     }
 
     public String getMyId() {
