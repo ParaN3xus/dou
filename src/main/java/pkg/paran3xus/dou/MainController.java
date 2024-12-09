@@ -112,6 +112,12 @@ public class MainController implements Initializable {
     @FXML
     protected void onJoinRoomButtonClicked() {
         controlPanel.setVisible(false);
+        controlButton.setText("Ready");
+        controlButton.setDisable(false);
+        controlNotButton.setText("no");
+        controlNotButton.setDisable(true);
+        state = RoomState.READY;
+
         connectServer(serverField.getText());
     }
 
@@ -140,7 +146,7 @@ public class MainController implements Initializable {
 
     protected void alert(String msg) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("提示");
+        alert.setTitle("Alert");
         alert.setHeaderText(null);
         alert.setContentText(msg);
         alert.showAndWait();
