@@ -5,6 +5,7 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
 import java.util.List;
+import java.util.Random;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -108,6 +109,8 @@ public class MainController implements Initializable {
 
                 }
             });
+
+            nicknameField.setText("Player" + new Random().nextInt(99));
         });
 
         chatMessagesLabel.heightProperty().addListener(new ChangeListener<Number>() {
@@ -350,11 +353,13 @@ public class MainController implements Initializable {
             @Override
             public void onPlayerMove(String id, CardCollection col) {
                 PlayerInfoPane pane = playerInfoPaneOfId(id);
-                pane.setStatus(col.toString());
                 pane.substractCardCount(col.getCardsCount());
 
                 if (!col.isEmpty()) {
+                    pane.setStatus(col.toString());
                     lastCardCollection = col;
+                } else {
+                    pane.setStatus("passed");
                 }
             }
 
